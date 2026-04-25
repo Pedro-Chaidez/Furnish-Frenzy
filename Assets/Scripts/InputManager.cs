@@ -27,7 +27,9 @@ public class InputManager : MonoBehaviour
         onFoot.SelectThirdItem.performed += ctx => { if (inventory != null) inventory.item3Select(); };
         onFoot.SelectFourthItem.performed += ctx => { if (inventory != null) inventory.item4Select(); };
         onFoot.SelectFifthItem.performed += ctx => { if (inventory != null) inventory.item5Select(); };
-        onFoot.DropItem.performed += ctx => { if (inventory != null) inventory.DropItem(); };
+        //onFoot.DropItem.performed += ctx => { if (inventory != null) inventory.DropItem(); };
+        onFoot.DropItem.started += ctx => { if (inventory != null) inventory.BeginDrop(); };
+        onFoot.DropItem.canceled += ctx => { if (inventory != null) inventory.EndDrop(); };
         onFoot.UseItem.performed += ctx => { if (inventory != null) inventory.UseItem(); };
     }
     private void FixedUpdate()
