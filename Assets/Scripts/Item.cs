@@ -8,7 +8,7 @@ public abstract class Item : Interactable
     protected float durability;
     public bool needsTwoHandsToPickUp;
 
-    public HeldItemPhysics physicsController; // Add this!
+    public HeldItemPhysics physicsController;
 
     private void Awake()
     {
@@ -21,9 +21,21 @@ public abstract class Item : Interactable
     {
         if (Inventory.instance.AddItem(this))
         {
-            // Do NOT parent the item. 
-            // Equip it immediately (this disables other items and enables this one)
             Inventory.instance.EquipItem();
+        }
+    }
+
+    // --- NEW VIRTUAL METHODS ---
+    public virtual void OnEquipCustom(Transform playerTransform) { }
+
+    public virtual void OnUnequipCustom() { }
+
+    public virtual void OnDrop(float force, Vector3 direction)
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null && force > 0)
+        {
+            rb.AddForce(direction * force, ForceMode.Impulse);
         }
     }
 }

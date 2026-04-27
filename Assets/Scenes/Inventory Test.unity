@@ -819,6 +819,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Storing Box
       objectReference: {fileID: 0}
+    - target: {fileID: 7309452238855985151, guid: e2d700d8a12ee624d8a14ebf0a2e3cd5, type: 3}
+      propertyPath: equippedPositionOffset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7309452238855985151, guid: e2d700d8a12ee624d8a14ebf0a2e3cd5, type: 3}
+      propertyPath: equippedRotationOffset.y
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 7316773234018779575, guid: e2d700d8a12ee624d8a14ebf0a2e3cd5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
