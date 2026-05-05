@@ -26,7 +26,8 @@ public abstract class BaseNPC : Entity
 
     protected virtual void SearchForTarget()
     {
-        Entity[] allEntities = Object.FindObjectsByType<Entity>(FindObjectsSortMode.None);
+        // FIXED: Replaced the obsolete FindObjectsSortMode with FindObjectsInactive
+        Entity[] allEntities = Object.FindObjectsByType<Entity>(FindObjectsInactive.Exclude);
         float closestDistance = Mathf.Infinity;
         Entity closestEntity = null;
 

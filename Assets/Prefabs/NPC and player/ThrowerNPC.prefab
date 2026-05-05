@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4205087984305324065
+--- !u!1 &7348947343836433810
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8297861773344993510}
-  - component: {fileID: 4825183830509680150}
-  - component: {fileID: 5583863263746561284}
-  - component: {fileID: 3749798562249275709}
-  - component: {fileID: 8146264891367078994}
+  - component: {fileID: 8033117606307340126}
+  - component: {fileID: 5961367854834796770}
+  - component: {fileID: 575800163803844860}
+  - component: {fileID: 5463403436262961850}
+  - component: {fileID: 8157376670333880374}
   m_Layer: 0
-  m_Name: CowardNPC
+  m_Name: ThrowerNPC
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8297861773344993510
+--- !u!4 &8033117606307340126
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205087984305324065}
+  m_GameObject: {fileID: 7348947343836433810}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7920637938079999580}
+  - {fileID: 8586397822326406008}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4825183830509680150
+--- !u!33 &5961367854834796770
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205087984305324065}
+  m_GameObject: {fileID: 7348947343836433810}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &5583863263746561284
+--- !u!23 &575800163803844860
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205087984305324065}
+  m_GameObject: {fileID: 7348947343836433810}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -93,13 +93,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3749798562249275709
+--- !u!136 &5463403436262961850
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205087984305324065}
+  m_GameObject: {fileID: 7348947343836433810}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -116,24 +116,32 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8146264891367078994
+--- !u!114 &8157376670333880374
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4205087984305324065}
+  m_GameObject: {fileID: 7348947343836433810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2f962e6b9d455b46901c0c5f623b86c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0aeef3435b7204d409b4e365ccc59331, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CowardNPC
+  m_EditorClassIdentifier: '::'
   health: 100
   teamID: 2
   currentTarget: {fileID: 0}
   attackRange: 5
   attackDamage: 10
---- !u!1 &8071362409647363545
+  itemPrefab: {fileID: 6003656880666555960, guid: e2d700d8a12ee624d8a14ebf0a2e3cd5, type: 3}
+  throwPoint: {fileID: 8586397822326406008}
+  throwVelocity: 15
+  throwAngle: 45
+  throwRate: 2
+  maxChaseDistance: 15
+  stopDistance: 8
+  moveSpeed: 3
+--- !u!1 &7681443033268389814
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,7 +149,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7920637938079999580}
+  - component: {fileID: 8586397822326406008}
   m_Layer: 0
   m_Name: Throw Point
   m_TagString: Untagged
@@ -149,18 +157,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7920637938079999580
+--- !u!4 &8586397822326406008
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8071362409647363545}
+  m_GameObject: {fileID: 7681443033268389814}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.9}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8297861773344993510}
+  m_Father: {fileID: 8033117606307340126}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
