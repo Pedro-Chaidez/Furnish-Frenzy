@@ -1,6 +1,7 @@
 using Unity.MP_FPS;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class InputManager : MonoBehaviour
 {
     private InputSystem_Actions playerInput;
@@ -8,6 +9,8 @@ public class InputManager : MonoBehaviour
     private PlayerMotor motor;
     private PlayerLook look;
     private Inventory inventory;
+    private Player player; // Added the Player script
+
     private void Awake()
     {
         playerInput = new InputSystem_Actions();
@@ -16,6 +19,7 @@ public class InputManager : MonoBehaviour
         motor = GetComponent<PlayerMotor>();
         look = GetComponent<PlayerLook>();
         inventory = GetComponent<Inventory>();
+        player = GetComponent<Player>(); // Grab the Player script
 
         onFoot.Jump.performed += ctx => { if (motor != null) motor.Jump(); };
         onFoot.Crouch.performed += ctx => { if (motor != null) motor.Crouch(); };
@@ -27,46 +31,52 @@ public class InputManager : MonoBehaviour
         onFoot.SelectThirdItem.performed += ctx => { if (inventory != null) inventory.item3Select(); };
         onFoot.SelectFourthItem.performed += ctx => { if (inventory != null) inventory.item4Select(); };
         onFoot.SelectFifthItem.performed += ctx => { if (inventory != null) inventory.item5Select(); };
-        //onFoot.DropItem.performed += ctx => { if (inventory != null) inventory.DropItem(); };
         onFoot.DropItem.started += ctx => { if (inventory != null) inventory.BeginDrop(); };
         onFoot.DropItem.canceled += ctx => { if (inventory != null) inventory.EndDrop(); };
         onFoot.UseItem.performed += ctx => { if (inventory != null) inventory.UseItem(); };
+
+        // Bind the new Block controls
+        onFoot.Block.started += ctx => { if (player != null) player.SetBlock(true); };
+        onFoot.Block.canceled += ctx => { if (player != null) player.SetBlock(false); };
     }
+
     private void FixedUpdate()
     {
         if (motor != null && playerInput != null)
-    {
-        motor.ProcessMove(onFoot.Move.ReadValue<Vector2>());
+        {
+            motor.ProcessMove(onFoot.Move.ReadValue<Vector2>());
         }
     }
+
     private void LateUpdate()
     {
         if (look != null && playerInput != null)
-    {
-        look.ProcessLook(onFoot.Look.ReadValue<Vector2>());
+        {
+            look.ProcessLook(onFoot.Look.ReadValue<Vector2>());
         }
     }
+
     private void OnEnable()
     {
         if (playerInput != null)
-    {
-        onFoot.Enable();
+        {
+            onFoot.Enable();
         }
     }
+
     private void OnDisable()
     {
         if (playerInput != null)
-    {
-        onFoot.Disable();
+        {
+            onFoot.Disable();
         }
     }
-    
-    // Re-check components if they were null initially (for delayed initialization)
+
     private void Start()
     {
-        // Re-check components in case they weren't ready in Awake
         if (motor == null) motor = GetComponent<PlayerMotor>();
         if (look == null) look = GetComponent<PlayerLook>();
         if (inventory == null) inventory = GetComponent<Inventory>();
+        if (player == null) player = GetComponent<Player>(); // Double check
     }
 }

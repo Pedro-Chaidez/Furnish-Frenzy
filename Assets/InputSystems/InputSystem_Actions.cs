@@ -228,6 +228,15 @@ namespace Unity.MP_FPS
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""5d15d513-57dd-4f0d-b821-56811567ef3a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -602,6 +611,17 @@ namespace Unity.MP_FPS
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SelectFifthItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""57c23cd2-c942-452b-96e5-276653eb8235"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1204,6 +1224,7 @@ namespace Unity.MP_FPS
             m_Player_SelectThirdItem = m_Player.FindAction("SelectThirdItem", throwIfNotFound: true);
             m_Player_SelectFourthItem = m_Player.FindAction("SelectFourthItem", throwIfNotFound: true);
             m_Player_SelectFifthItem = m_Player.FindAction("SelectFifthItem", throwIfNotFound: true);
+            m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1312,6 +1333,7 @@ namespace Unity.MP_FPS
         private readonly InputAction m_Player_SelectThirdItem;
         private readonly InputAction m_Player_SelectFourthItem;
         private readonly InputAction m_Player_SelectFifthItem;
+        private readonly InputAction m_Player_Block;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -1384,6 +1406,10 @@ namespace Unity.MP_FPS
             /// </summary>
             public InputAction @SelectFifthItem => m_Wrapper.m_Player_SelectFifthItem;
             /// <summary>
+            /// Provides access to the underlying input action "Player/Block".
+            /// </summary>
+            public InputAction @Block => m_Wrapper.m_Player_Block;
+            /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
             public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1454,6 +1480,9 @@ namespace Unity.MP_FPS
                 @SelectFifthItem.started += instance.OnSelectFifthItem;
                 @SelectFifthItem.performed += instance.OnSelectFifthItem;
                 @SelectFifthItem.canceled += instance.OnSelectFifthItem;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
             }
 
             /// <summary>
@@ -1510,6 +1539,9 @@ namespace Unity.MP_FPS
                 @SelectFifthItem.started -= instance.OnSelectFifthItem;
                 @SelectFifthItem.performed -= instance.OnSelectFifthItem;
                 @SelectFifthItem.canceled -= instance.OnSelectFifthItem;
+                @Block.started -= instance.OnBlock;
+                @Block.performed -= instance.OnBlock;
+                @Block.canceled -= instance.OnBlock;
             }
 
             /// <summary>
@@ -1915,6 +1947,13 @@ namespace Unity.MP_FPS
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnSelectFifthItem(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Block" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnBlock(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
