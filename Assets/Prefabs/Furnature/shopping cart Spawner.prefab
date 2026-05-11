@@ -186,15 +186,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9125075991170472764}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -3.0473416, y: 0.5, z: 2.9783049}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6805011186556867146}
   - {fileID: 8316986918450719436}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &515201711740425817
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -285,6 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9d2ac0f63cdad479ea832e6308654a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrefabSpawner
-  prefabToSpawn: {fileID: 1349535422926199874, guid: e2d700d8a12ee624d8a14ebf0a2e3cd5, type: 3}
+  prefabToSpawn: {fileID: 6003656880666555960, guid: e2d700d8a12ee624d8a14ebf0a2e3cd5, type: 3}
   respawnPoint: {fileID: 8316986918450719436}
   spawnOnStart: 1

@@ -15,6 +15,10 @@ public class Inventory : MonoBehaviour
     private GameObject[] slotIcons;
     public Transform dropPoint;
 
+    private float dropStartTime = 0f;
+    private bool isHoldingDrop = false;
+    public float throwForceMultiplier = 15f;
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -60,24 +64,55 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public void DropItem()
+    public void BeginDrop()
     {
-        if (items[selectedItem] == null) return; // Can't drop empty air
+        if (items[selectedItem] == null) return;
+        isHoldingDrop = true;
+        dropStartTime = Time.time;
+    }
 
+    public void EndDrop()
+    {
+        if (!isHoldingDrop || items[selectedItem] == null) return;
+        isHoldingDrop = false;
+
+        float holdTime = Time.time - dropStartTime;
+        float throwForce = 0f;
+
+        // Check if held for at least 1 second to activate the gauge
+        if (holdTime >= 1f)
+        {
+            // Convert time to levels 1, 2, or 3
+            int level = Mathf.FloorToInt(holdTime);
+            if (level > 3) level = 3; // Cap at level 3
+
+            throwForce = level * throwForceMultiplier;
+            Debug.Log($"Item thrown at Level {level} with force {throwForce}");
+        }
+
+        ExecuteDropOrThrow(throwForce);
+    }
+
+    private void ExecuteDropOrThrow(float throwForce)
+    {
         try
         {
             Item itemToDrop = items[selectedItem];
+
+            // 1. Run custom unequip logic (turns shopping cart physics back on)
+            itemToDrop.OnUnequipCustom();
 
             itemToDrop.physicsController.OnUnequip();
             itemToDrop.transform.parent = null;
             itemToDrop.transform.position = dropPoint != null ? dropPoint.position : transform.position + (transform.forward * 2);
             itemToDrop.gameObject.SetActive(true);
 
-            // CHANGED: Set the slot to null instead of removing it from a list
-            items[selectedItem] = null;
+            // 2. Apply the throw force based on the gauge
+            itemToDrop.OnDrop(throwForce, transform.forward);
 
+            items[selectedItem] = null;
             UpdateUI();
-            EquipItem(); // Will equip "nothing" since the slot is now null
+            EquipItem();
         }
         catch (Exception ex)
         {
@@ -99,25 +134,27 @@ public class Inventory : MonoBehaviour
 
     public void EquipItem()
     {
-        // 1. Turn off and unequip ALL items
         for (ushort i = 0; i < items.Length; i++)
         {
             if (items[i] != null)
             {
+                items[i].OnUnequipCustom(); // Safely unequip custom logic
                 items[i].physicsController.OnUnequip();
                 items[i].gameObject.SetActive(false);
             }
         }
 
-        // 2. Turn on and equip ONLY the selected item (if it exists)
         if (items[selectedItem] != null)
         {
-
             Item currentItem = items[selectedItem];
             currentItem.transform.parent = null;
             currentItem.gameObject.SetActive(true);
             currentItem.transform.position = dropPoint.position;
+
             currentItem.physicsController.OnEquip();
+
+            // Trigger custom equip (for the shopping cart)
+            currentItem.OnEquipCustom(transform);
         }
     }
 

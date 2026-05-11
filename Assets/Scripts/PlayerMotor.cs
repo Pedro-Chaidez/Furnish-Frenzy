@@ -10,6 +10,8 @@ public class PlayerMotor : MonoBehaviour
     private bool isGrounded;
     public bool crouching;
     public bool sprinting;
+    public bool isBlocking; // New rule to check if we are blocking
+
     public float speed = 6f;
     public float gravity = -10f;
     public float jumpHeight = 7f;
@@ -48,10 +50,20 @@ public class PlayerMotor : MonoBehaviour
         moveDirection.x = input.x;
         moveDirection.z = input.y;
 
-        controller.Move(transform.TransformDirection(moveDirection) * speed * Time.deltaTime);
+        float currentSpeed = speed;
+
+        // Cut speed in half if we are holding the block button
+        if (isBlocking)
+        {
+            currentSpeed /= 2f;
+        }
+
+        controller.Move(transform.TransformDirection(moveDirection) * currentSpeed * Time.deltaTime);
         playerVelocity.y += gravity * Time.deltaTime;
+
         if (isGrounded && playerVelocity.y < 0)
             playerVelocity.y = -2f;
+
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
