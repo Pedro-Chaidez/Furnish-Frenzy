@@ -1,0 +1,23 @@
+using UnityEngine;
+
+public enum ItemSize { Small, Large }
+
+public class FurnitureItem : MonoBehaviour
+{
+    public string itemName;
+    public Sprite icon;
+    public ItemSize size = ItemSize.Small;
+    public float price = 0f;
+    [HideInInspector] public bool isInCart = false;
+
+    void Update()
+    {
+        // Press E when looking at this object
+    }
+
+    public void PickUp()
+    {
+        if (!isInCart)
+            InventoryManager.Instance.TryAddItem(this);
+    }
+}
