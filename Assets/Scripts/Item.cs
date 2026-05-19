@@ -26,6 +26,17 @@ public abstract class Item : Interactable
     {
         if (Inventory.instance.AddItem(this))
         {
+            // Remove parent and restore physics
+            transform.parent = null;
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false; // Turn physics back on if it was placed on a static object
+            }
+            
+            // --- THE FIX: Added the '?' to safely check for null ---
+            PersistentStateManager.Instance?.RemovePlacedItem(this.itemName); 
+
             Inventory.instance.EquipItem();
         }
     }

@@ -696,7 +696,7 @@ GameObject:
   - component: {fileID: 5789789326840106453}
   - component: {fileID: 9050766504420871015}
   m_Layer: 3
-  m_Name: Storing Box
+  m_Name: Shopping Cart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -813,10 +813,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PortableBanish
   promptMessage: Pick up?
-  itemName: Shopping Cart
+  itemName: ShoppingCart
   icon: {fileID: 21300000, guid: 09ff1440ab7699e49b651317d2836d93, type: 3}
-  needsTwoHandsToPickUp: 0
+  needsTwoHandsToPickUp: 1
   physicsController: {fileID: 5789789326840106453}
+  damageVelocityThreshold: 5
+  itemDamage: 25
   equippedPositionOffset: {x: 0, y: 0, z: 1.5}
   equippedRotationOffset: {x: 0, y: -90, z: 0}
   dropDistance: 2.5
