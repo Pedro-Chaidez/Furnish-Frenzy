@@ -25,6 +25,7 @@ public class Player : Entity
         gameObject.tag = "Player";
         teamID = 0;
         motor = GetComponent<PlayerMotor>();
+				parryVisualUI.SetActive(false);
     }
 
     public void SetBlock(bool state)
