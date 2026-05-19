@@ -13,8 +13,7 @@ public class SodaCan : Item
         if (player != null)
         {
             // Assuming you add a Heal() method to your Entity/Player class
-            // player.Heal(healAmount); 
-
+            player.Heal(healAmount); 
             Debug.Log($"{itemName} used! Restored {healAmount} health.");
         }
     }
