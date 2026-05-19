@@ -50,22 +50,18 @@ public abstract class Item : Interactable
  
     private void OnCollisionEnter(Collision collision)
     {
-        if (!isThrown) return;
- 
         Rigidbody rb = GetComponent<Rigidbody>();
- 
+
         if (rb != null && rb.linearVelocity.magnitude >= damageVelocityThreshold)
         {
             Entity hitEntity = collision.gameObject.GetComponent<Entity>();
             if (hitEntity != null)
             {
                 hitEntity.TakeDamage(itemDamage, this.gameObject);
- 
-                Debug.Log($"{itemName} hit {collision.gameObject.name} for {itemDamage} damage! " +
-                          $"(velocity: {rb.linearVelocity.magnitude:F1})");
+                Debug.Log($"{itemName} hit {collision.gameObject.name} for {itemDamage} damage!");
             }
         }
- 
+
         isThrown = false;
     }
 }
