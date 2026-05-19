@@ -169,6 +169,9 @@ public float rotationSpeed = 30f;
             itemToDrop.transform.position = dropPoint != null ? dropPoint.position : transform.position + (transform.forward * 2);
             itemToDrop.gameObject.SetActive(true);
 
+            // --- THE FIX: Tell the item that the Player threw it ---
+            itemToDrop.currentThrower = this.gameObject;
+
             // 2. Apply the throw force based on the gauge
             itemToDrop.OnDrop(throwForce, transform.forward);
 
@@ -252,6 +255,7 @@ public float rotationSpeed = 30f;
         UpdateUI();
         EquipItem();
     }
+
 
     public void item1Select() { ChangeSelectedSlot(0); }
     public void item2Select() { ChangeSelectedSlot(1); }

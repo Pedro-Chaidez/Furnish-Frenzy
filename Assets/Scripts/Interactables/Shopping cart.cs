@@ -49,29 +49,24 @@ public class ShoppingCart : Item
     {
         if (cachedPlayerTransform != null)
         {
-            // Calculate a position directly in front of the player
             Vector3 newDropPos = cachedPlayerTransform.position + (cachedPlayerTransform.forward * dropDistance);
-
-            // Lock the Y position to the player's base Y so it stays grounded
             newDropPos.y = cachedPlayerTransform.position.y;
             transform.position = newDropPos;
 
-            // --- THE FIX: Keep the current rotation (preserving your offset) 
-            // but flatten X and Z so the cart sits perfectly upright ---
             Vector3 currentEuler = transform.eulerAngles;
             transform.rotation = Quaternion.Euler(0f, currentEuler.y, 0f);
 
-            cachedPlayerTransform = null; // Clear the reference
+            cachedPlayerTransform = null;
         }
 
-        // Strip the Y-axis so the cart doesn't fly upwards if thrown
         direction.y = 0;
         direction.Normalize();
 
-        // Apply throw force
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null && force > 0)
         {
+            // --- THE FIX: Flag the cart as thrown so the base class knows to deal damage ---
+            isThrown = true;
             rb.AddForce(direction * force, ForceMode.Impulse);
         }
     }

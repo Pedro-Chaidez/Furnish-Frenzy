@@ -3,11 +3,20 @@ using System.Collections;
 
 public class Player : Entity
 {
-    [Header("Block & Parry Settings")]
+    [Header("Block & Parry States")]
     public bool isBlocking = false;
-    private float blockStartTime;
+    public bool isParryActive = false;
+    public bool cannotBlock = false;
+
+    [Header("Block & Parry Settings")]
     public float parryMinWindow = 0.05f;
-    public float parryMaxWindow = 1.0f;
+    public float parryMaxWindow = 1.0f; // Note: 1.0f equals 1 second
+    public float blockLingerTime = 0.06f; // How long block/parry stays active after letting go
+    public float blockCooldownTime = 0.5f; // How long the player is locked out of blocking 
+
+    private float blockStartTime;
+    private Coroutine blockLingerRoutine;
+    private Coroutine parryVisualRoutineTracker;
 
     [Header("Hitbox Settings")]
     public Transform parryHitboxCenter;
@@ -15,8 +24,8 @@ public class Player : Entity
 
     [Header("Parry Feedback")]
     public AudioSource parryAudioSource;
-    public AudioClip parrySound; // Drop your mp3 file here in the Inspector
-    public GameObject parryVisualUI; // Drop your hidden UI image/panel here
+    public AudioClip parrySound;
+    public GameObject parryVisualUI;
 
     private PlayerMotor motor;
 
@@ -25,47 +34,84 @@ public class Player : Entity
         gameObject.tag = "Player";
         teamID = 0;
         motor = GetComponent<PlayerMotor>();
-				parryVisualUI.SetActive(false);
+
+        if (parryVisualUI != null) parryVisualUI.SetActive(false);
+    }
+
+    private void Update()
+    {
+        // Constantly evaluate if the parry window is currently active
+        if (isBlocking)
+        {
+            float timeSinceBlock = Time.time - blockStartTime;
+            isParryActive = (timeSinceBlock >= parryMinWindow && timeSinceBlock <= parryMaxWindow);
+        }
+        else
+        {
+            isParryActive = false;
+        }
     }
 
     public void SetBlock(bool state)
     {
-        isBlocking = state;
-
-        if (motor != null)
-        {
-            motor.isBlocking = state;
-        }
+        // Prevent blocking if we are in the cooldown state
+        if (state && cannotBlock) return;
 
         if (state)
         {
-            blockStartTime = Time.time; // Start the block timer when button is pressed
+            // If the player presses block while the linger is still happening, cancel the linger
+            if (blockLingerRoutine != null)
+            {
+                StopCoroutine(blockLingerRoutine);
+                blockLingerRoutine = null;
+            }
+
+            isBlocking = true;
+            blockStartTime = Time.time;
+
+            if (motor != null) motor.isBlocking = true;
         }
+        else
+        {
+            // When the player lets go of the button, start the 0.06s linger timer
+            if (isBlocking && gameObject.activeInHierarchy)
+            {
+                blockLingerRoutine = StartCoroutine(BlockLingerCoroutine());
+            }
+        }
+    }
+
+    private IEnumerator BlockLingerCoroutine()
+    {
+        // 1. Linger State: Keep everything active for 0.06 seconds
+        yield return new WaitForSeconds(blockLingerTime);
+
+        // 2. Turn off block
+        isBlocking = false;
+        isParryActive = false;
+        if (motor != null) motor.isBlocking = false;
+
+        // 3. Cooldown State: Lock the player out of blocking
+        cannotBlock = true;
+        yield return new WaitForSeconds(blockCooldownTime);
+        cannotBlock = false;
     }
 
     public override void TakeDamage(float amount, GameObject source = null)
     {
         bool parried = false;
 
-        // Check if we are holding block and an object actually hit us
-        if (isBlocking && source != null)
+        // Check our real-time boolean instead of doing math here
+        if (isParryActive && source != null)
         {
-            float timeSinceBlock = Time.time - blockStartTime;
+            Collider[] objectsInHitbox = Physics.OverlapBox(parryHitboxCenter.position, parryHitboxSize / 2f, parryHitboxCenter.rotation);
 
-            // Check if our block timing was inside the sweet spot
-            if (timeSinceBlock >= parryMinWindow && timeSinceBlock <= parryMaxWindow)
+            foreach (Collider col in objectsInHitbox)
             {
-                // Create an invisible cube in front of the player and see what is inside it
-                Collider[] objectsInHitbox = Physics.OverlapBox(parryHitboxCenter.position, parryHitboxSize / 2f, parryHitboxCenter.rotation);
-
-                foreach (Collider col in objectsInHitbox)
+                if (col.gameObject == source)
                 {
-                    // If the item that hurt us is inside the cube, it's a parry
-                    if (col.gameObject == source)
-                    {
-                        parried = true;
-                        break;
-                    }
+                    parried = true;
+                    break;
                 }
             }
         }
@@ -86,27 +132,38 @@ public class Player : Entity
 
     private void SuccessfulParry()
     {
-        // Play the mp3 file
+        Debug.Log("Successful Parry Executed!");
+
+        // Play the mp3 file safely
         if (parryAudioSource != null && parrySound != null)
         {
             parryAudioSource.PlayOneShot(parrySound);
         }
+        else
+        {
+            Debug.LogWarning("Parry missed audio: AudioSource or AudioClip is not assigned in the Inspector!");
+        }
 
-        // Flash the UI
+        // Flash the UI safely
         if (parryVisualUI != null)
         {
-            StartCoroutine(ParryVisualRoutine());
+            // If they parry twice rapidly, stop the old UI animation and restart it
+            if (parryVisualRoutineTracker != null) StopCoroutine(parryVisualRoutineTracker);
+            parryVisualRoutineTracker = StartCoroutine(ParryVisualFlash());
+        }
+        else
+        {
+            Debug.LogWarning("Parry missed visual: UI GameObject is not assigned in the Inspector!");
         }
     }
 
-    private IEnumerator ParryVisualRoutine()
+    private IEnumerator ParryVisualFlash()
     {
-        parryVisualUI.SetActive(true); // Turn UI on
-        yield return new WaitForSeconds(1f); // Wait 1 second
-        parryVisualUI.SetActive(false); // Turn UI off
+        parryVisualUI.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        parryVisualUI.SetActive(false);
     }
 
-    // This draws a green outline in the Unity Editor so you can easily see and adjust your hitbox
     private void OnDrawGizmosSelected()
     {
         if (parryHitboxCenter != null)
