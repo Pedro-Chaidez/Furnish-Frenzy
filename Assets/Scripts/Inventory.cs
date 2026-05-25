@@ -19,6 +19,11 @@ public class Inventory : MonoBehaviour
     private bool isHoldingDrop = false;
     public float throwForceMultiplier = 15f;
 
+		[Header("Placement Settings")]
+public Camera playerCamera; // Assign your main camera in the inspector
+public float placementRange = 4f;
+public float rotationSpeed = 30f;
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -34,6 +39,63 @@ public class Inventory : MonoBehaviour
         }
         UpdateUI();
     }
+		// --- NEW: Item Rotation Logic ---
+    public void RotateHeldItem(Vector2 lookInput)
+    {
+        if (items[selectedItem] == null) return;
+
+        float rotX = lookInput.x * rotationSpeed * Time.deltaTime;
+        float rotY = lookInput.y * rotationSpeed * Time.deltaTime;
+
+        // Rotate the drop point relative to the camera's orientation
+        dropPoint.Rotate(playerCamera.transform.up, -rotX, Space.World);
+        dropPoint.Rotate(playerCamera.transform.right, rotY, Space.World);
+    }
+
+    // --- NEW: Item Placement Logic ---
+    public void PlaceItem()
+    {
+        if (items[selectedItem] == null) return;
+
+        Item itemToPlace = items[selectedItem];
+
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, placementRange))
+        {
+            // 1. Position and Parent
+            itemToPlace.transform.position = hit.point;
+            itemToPlace.transform.parent = hit.collider.transform;
+
+            // 2. Unequip safely FIRST (Let the Shopping Cart do its default behavior)
+            itemToPlace.OnUnequipCustom();
+            itemToPlace.physicsController.OnUnequip();
+
+            // 3. Handle Physics logic based on target object AFTER unequip
+            Rigidbody itemRb = itemToPlace.GetComponent<Rigidbody>();
+            Rigidbody targetRb = hit.collider.GetComponent<Rigidbody>();
+
+            if (itemRb != null)
+            {
+                // This now safely overrides the ShoppingCart's default unequip logic
+                itemRb.isKinematic = (targetRb == null);
+            }
+            
+            // 4. Save to Persistent State Manager
+            string itemID = itemToPlace.itemName + "_" + System.Guid.NewGuid().ToString(); 
+            PersistentStateManager.Instance?.SavePlacedItem(itemID, itemToPlace.transform);
+
+            // 5. Clear Inventory Slot
+            items[selectedItem] = null;
+            dropPoint.localRotation = Quaternion.identity; 
+            UpdateUI();
+            EquipItem();
+        }
+        else
+        {
+            Debug.Log("Nothing in range to attach to!");
+        }
+    }
+
 
     // --- TWO-HANDED LOCK LOGIC ---
     private bool IsHoldingTwoHandedItem()
@@ -106,6 +168,9 @@ public class Inventory : MonoBehaviour
             itemToDrop.transform.parent = null;
             itemToDrop.transform.position = dropPoint != null ? dropPoint.position : transform.position + (transform.forward * 2);
             itemToDrop.gameObject.SetActive(true);
+
+            // --- THE FIX: Tell the item that the Player threw it ---
+            itemToDrop.currentThrower = this.gameObject;
 
             // 2. Apply the throw force based on the gauge
             itemToDrop.OnDrop(throwForce, transform.forward);
@@ -190,6 +255,7 @@ public class Inventory : MonoBehaviour
         UpdateUI();
         EquipItem();
     }
+
 
     public void item1Select() { ChangeSelectedSlot(0); }
     public void item2Select() { ChangeSelectedSlot(1); }

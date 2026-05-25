@@ -149,6 +149,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RotateItem",
+                    "type": "Button",
+                    "id": "1bd67f47-3908-4723-9bc3-bd73251f297f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -534,6 +543,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "115de024-004d-47fb-bafe-e1b2f2f5e611",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "RotateItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

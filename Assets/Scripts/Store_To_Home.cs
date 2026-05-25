@@ -7,7 +7,7 @@ public class DoorExit : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene("Home");
+            SceneManager.LoadScene("House");
         }
     }
 }
