@@ -13,9 +13,10 @@ public class InputManager : MonoBehaviour
     private Inventory inventory;
     private Player player;
 
-    // --- NEW: Tracks the current state so OnEnable doesn't break the tutorial ---
+    // --- State Tracking ---
     [HideInInspector]
-    public bool isPlayerControlActive = true;
+    public bool isPlayerControlActive = true; // Tracks UI vs Player control state
+    public bool isManipulatingItem = false;   // Tracks if the player is rotating an item
 
     private void Awake()
     {
@@ -28,9 +29,12 @@ public class InputManager : MonoBehaviour
         inventory = GetComponent<Inventory>();
         player = GetComponent<Player>();
 
+        // Basic Movement & Interaction
         onFoot.Jump.performed += ctx => { if (motor != null) motor.Jump(); };
         onFoot.Crouch.performed += ctx => { if (motor != null) motor.Crouch(); };
         onFoot.Sprint.performed += ctx => { if (motor != null) motor.Sprint(); };
+
+        // Inventory Management
         onFoot.NextItem.performed += ctx => { if (inventory != null) inventory.scrollUp(); };
         onFoot.PreviousItem.performed += ctx => { if (inventory != null) inventory.scrollDown(); };
         onFoot.SelectFirstItem.performed += ctx => { if (inventory != null) inventory.item1Select(); };
@@ -42,8 +46,29 @@ public class InputManager : MonoBehaviour
         onFoot.DropItem.canceled += ctx => { if (inventory != null) inventory.EndDrop(); };
         onFoot.UseItem.performed += ctx => { if (inventory != null) inventory.UseItem(); };
 
-        onFoot.Block.started += ctx => { if (player != null) player.SetBlock(true); };
-        onFoot.Block.canceled += ctx => { if (player != null) player.SetBlock(false); };
+        // --- Item Manipulation (From old script) ---
+        onFoot.RotateItem.started += ctx => isManipulatingItem = true;
+        onFoot.RotateItem.canceled += ctx => {
+            isManipulatingItem = false;
+            // Reset drop point rotation when letting go of the rotate button
+            if (inventory != null && inventory.dropPoint != null)
+                inventory.dropPoint.localRotation = Quaternion.identity;
+        };
+
+        // --- Contextual Blocking / Placing (From old script) ---
+        onFoot.Block.started += ctx => {
+            if (isManipulatingItem)
+            {
+                if (inventory != null) inventory.PlaceItem();
+            }
+            else if (player != null)
+            {
+                player.SetBlock(true);
+            }
+        };
+        onFoot.Block.canceled += ctx => {
+            if (!isManipulatingItem && player != null) player.SetBlock(false);
+        };
     }
 
     private void FixedUpdate()
@@ -58,7 +83,17 @@ public class InputManager : MonoBehaviour
     {
         if (look != null && playerInput != null && onFoot.enabled)
         {
-            look.ProcessLook(onFoot.Look.ReadValue<Vector2>());
+            Vector2 lookInput = onFoot.Look.ReadValue<Vector2>();
+
+            // --- Route mouse input based on state ---
+            if (isManipulatingItem)
+            {
+                if (inventory != null) inventory.RotateHeldItem(lookInput);
+            }
+            else
+            {
+                look.ProcessLook(lookInput);
+            }
         }
     }
 
@@ -86,7 +121,7 @@ public class InputManager : MonoBehaviour
     {
         if (playerInput != null)
         {
-            // --- UPDATED: Automatically uses the correct state (Player vs UI) ---
+            // Automatically uses the correct state (Player vs UI)
             SetPlayerControls(isPlayerControlActive);
         }
     }
@@ -106,9 +141,5 @@ public class InputManager : MonoBehaviour
         if (look == null) look = GetComponent<PlayerLook>();
         if (inventory == null) inventory = GetComponent<Inventory>();
         if (player == null) player = GetComponent<Player>();
-
-        // --- THE FIX: We removed SetPlayerControls(true) from here. ---
-        // It is now handled automatically by OnEnable(), so it will no longer 
-        // fight with the TutorialManager's Start() method.
     }
 }
