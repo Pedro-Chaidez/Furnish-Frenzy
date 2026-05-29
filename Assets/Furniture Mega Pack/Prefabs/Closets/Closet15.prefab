@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4807266657669011992}
-  - component: {fileID: 9214976308706455874}
   - component: {fileID: 1254365715920504279}
+  - component: {fileID: 1383760185491781734}
   m_Layer: 0
   m_Name: Closet15
   m_TagString: Untagged
@@ -34,27 +34,6 @@ Transform:
   - {fileID: 4508731748167011020}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &9214976308706455874
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3210407711189526363}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.4085302, y: 5.5967846, z: 1.9563657}
-  m_Center: {x: -0.000000051222752, y: 2.7983923, z: -0.0000003335943}
 --- !u!54 &1254365715920504279
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -82,6 +61,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &1383760185491781734
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3210407711189526363}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.4085302, y: 5.5967846, z: 1.9563657}
+  m_Center: {x: -0.000000051222752, y: 2.7983923, z: -0.0000003335943}
 --- !u!1 &8843567646422417272
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8586916435254366388}
-  - component: {fileID: 7818208415014426716}
   - component: {fileID: 5056115540622261371}
+  - component: {fileID: 6821399717256063674}
   m_Layer: 0
   m_Name: Sofa19
   m_TagString: Untagged
@@ -34,27 +34,6 @@ Transform:
   - {fileID: 7893838133525385717}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7818208415014426716
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 632971356950689392}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4.7422338, y: 1.822028, z: 1.5102669}
-  m_Center: {x: -0.0000000019279989, y: 0.91101396, z: 0.0049509793}
 --- !u!54 &5056115540622261371
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -82,6 +61,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &6821399717256063674
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632971356950689392}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.7422338, y: 1.822028, z: 1.5102669}
+  m_Center: {x: -0.0000000019279989, y: 0.91101396, z: 0.0049509793}
 --- !u!1 &2929525565630133318
 GameObject:
   m_ObjectHideFlags: 0

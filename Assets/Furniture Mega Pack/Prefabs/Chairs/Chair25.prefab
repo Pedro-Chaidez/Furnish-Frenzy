@@ -99,8 +99,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5716522133833284682}
-  - component: {fileID: 431220676222970063}
   - component: {fileID: 3841659549797111133}
+  - component: {fileID: 8073657551212075534}
   m_Layer: 0
   m_Name: Chair25
   m_TagString: Untagged
@@ -124,27 +124,6 @@ Transform:
   - {fileID: 8348346048947251258}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &431220676222970063
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7113089054329222144}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.0247815, y: 2.424041, z: 0.95370305}
-  m_Center: {x: 0.0000002561137, y: 1.2120203, z: 0.08522545}
 --- !u!54 &3841659549797111133
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -172,3 +151,24 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &8073657551212075534
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7113089054329222144}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0247815, y: 2.424041, z: 0.95370305}
+  m_Center: {x: 0.0000002561137, y: 1.2120203, z: 0.08522545}

@@ -373,8 +373,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5260427502753660330}
-  - component: {fileID: 8830886915292873003}
   - component: {fileID: 6243119833368868286}
+  - component: {fileID: 5547482877811151358}
   m_Layer: 0
   m_Name: MicrowaveOven06
   m_TagString: Untagged
@@ -398,27 +398,6 @@ Transform:
   - {fileID: 7462373127444030736}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8830886915292873003
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2845264638634446349}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.2588875, y: 0.7347881, z: 0.9577238}
-  m_Center: {x: 0, y: 0.36645696, z: -0.061370462}
 --- !u!54 &6243119833368868286
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -446,6 +425,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &5547482877811151358
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2845264638634446349}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2588875, y: 0.7347881, z: 0.9577238}
+  m_Center: {x: 0, y: 0.36645696, z: -0.061370462}
 --- !u!1 &8152803853884333016
 GameObject:
   m_ObjectHideFlags: 0

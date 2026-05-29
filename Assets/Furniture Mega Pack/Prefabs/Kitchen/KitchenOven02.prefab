@@ -374,8 +374,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5684706351863852015}
-  - component: {fileID: 270774567242827286}
   - component: {fileID: 1195893314685612061}
+  - component: {fileID: 810567521316734868}
   m_Layer: 0
   m_Name: KitchenOven02
   m_TagString: Untagged
@@ -399,27 +399,6 @@ Transform:
   - {fileID: 9098288652877549608}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &270774567242827286
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5498976023834000136}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.3379271, y: 1.218276, z: 0.9566637}
-  m_Center: {x: 0, y: 0.60913795, z: -0.10177654}
 --- !u!54 &1195893314685612061
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -447,6 +426,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &810567521316734868
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498976023834000136}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.3379271, y: 1.218276, z: 0.9566637}
+  m_Center: {x: 0, y: 0.60913795, z: -0.10177654}
 --- !u!1 &7886542430902614450
 GameObject:
   m_ObjectHideFlags: 0
