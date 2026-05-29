@@ -190,8 +190,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6062972892046685799}
-  - component: {fileID: 8607104628126699989}
   - component: {fileID: 1503806109395116989}
+  - component: {fileID: 4338971533228811599}
   m_Layer: 0
   m_Name: TissueHanger05
   m_TagString: Untagged
@@ -215,27 +215,6 @@ Transform:
   - {fileID: 477577290195845665}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8607104628126699989
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8730877630595790858}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.40416718, y: 0.3841101, z: 0.53398895}
-  m_Center: {x: 21.719938, y: 0.5458744, z: 47.3}
 --- !u!54 &1503806109395116989
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -263,3 +242,24 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &4338971533228811599
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8730877630595790858}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.40416718, y: 0.3841101, z: 0.53398895}
+  m_Center: {x: 21.719938, y: 0.5458744, z: 47.3}
