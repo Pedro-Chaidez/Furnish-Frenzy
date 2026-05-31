@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class ShoppingCart : Item
 {
@@ -9,11 +10,16 @@ public class ShoppingCart : Item
     [Header("Drop Settings")]
     public float dropDistance = 2.5f;
 
+    [Header("Floor Drop Settings")]
+    public float floorDropHeight = 0.5f; // Height above floor to spawn items
+    public float spreadDistance = 2f;   // How far apart items are spread
+
     private Transform cachedPlayerTransform;
 
     public override void useItem()
     {
         Debug.Log("Used " + itemName);
+        EmptyCartToFloor();
     }
 
     public override void OnEquipCustom(Transform playerTransform)
@@ -43,6 +49,91 @@ public class ShoppingCart : Item
         if (rb != null) rb.isKinematic = false;
 
         if (physicsController != null) physicsController.enabled = true;
+    }
+
+    /// <summary>
+    /// Empties the cart by dropping all child items onto the house floor
+    /// </summary>
+    public void EmptyCartToFloor()
+    {
+        if (transform.childCount == 0)
+        {
+            Debug.Log("Shopping cart is empty!");
+            return;
+        }
+
+        Debug.Log($"Emptying shopping cart with {transform.childCount} items");
+
+        // Collect all children first (to avoid issues with modifying hierarchy while iterating)
+        List<Transform> childrenToEmpty = new List<Transform>();
+        foreach (Transform child in transform)
+        {
+            childrenToEmpty.Add(child);
+        }
+
+        // Drop each child item onto the floor
+        for (int i = 0; i < childrenToEmpty.Count; i++)
+        {
+            Transform child = childrenToEmpty[i];
+            Item itemInCart = child.GetComponent<Item>();
+
+            if (itemInCart != null)
+            {
+                // Detach from cart
+                child.SetParent(null);
+
+                // Calculate spread position around the cart
+                Vector3 spreadPos = transform.position + (transform.forward * (i * spreadDistance));
+                spreadPos.y = floorDropHeight;
+                child.position = spreadPos;
+
+                // Enable physics
+                Rigidbody itemRb = child.GetComponent<Rigidbody>();
+                if (itemRb != null)
+                {
+                    itemRb.isKinematic = false;
+                }
+
+                // Re-enable physics controller if it has one
+                HeldItemPhysics physicsCtrl = child.GetComponent<HeldItemPhysics>();
+                if (physicsCtrl != null)
+                {
+                    physicsCtrl.enabled = true;
+                }
+
+                Debug.Log($"Dropped {itemInCart.itemName} onto floor");
+            }
+        }
+
+        Debug.Log("Shopping cart emptied!");
+    }
+
+    /// <summary>
+    /// Adds an item to the shopping cart (as a child)
+    /// </summary>
+    public void AddItemToCart(Item itemToAdd)
+    {
+        if (itemToAdd != null)
+        {
+            // Parent the item to the cart
+            itemToAdd.transform.SetParent(transform);
+            itemToAdd.transform.localPosition = Vector3.zero;
+
+            // Disable physics while in cart
+            Rigidbody itemRb = itemToAdd.GetComponent<Rigidbody>();
+            if (itemRb != null)
+            {
+                itemRb.isKinematic = true;
+            }
+
+            HeldItemPhysics physicsCtrl = itemToAdd.GetComponent<HeldItemPhysics>();
+            if (physicsCtrl != null)
+            {
+                physicsCtrl.enabled = false;
+            }
+
+            Debug.Log($"Added {itemToAdd.itemName} to shopping cart");
+        }
     }
 
     public override void OnDrop(float force, Vector3 direction)

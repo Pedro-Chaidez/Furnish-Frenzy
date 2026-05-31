@@ -25,20 +25,31 @@ public class Inventory : MonoBehaviour
 	public float rotationSpeed = 30f;
 
 	private void Awake()
-	{
-			if (instance == null) instance = this;
-			else Debug.LogWarning("More than one instance of inventory found!");
+{
+    if (instance == null) instance = this;
+    else Debug.LogWarning("More than one instance of inventory found!");
 
-			// --- THE FIX: Force the array to be exactly 5, ignoring the Inspector ---
-			items = new Item[LIST_CAPACITY];
+    items = new Item[LIST_CAPACITY];
+    slotIcons = new GameObject[LIST_CAPACITY];
 
-			slotIcons = new GameObject[LIST_CAPACITY];
-			for (int i = 0; i < LIST_CAPACITY; i++)
-			{
-					slotIcons[i] = GameObject.Find("/Canvas/Inventory").transform.GetChild(i).gameObject;
-			}
-			UpdateUI();
-	}
+    GameObject inventoryUI = GameObject.Find("/Canvas/Inventory");
+
+    if (inventoryUI == null)
+    {
+        Debug.LogWarning("Old Inventory UI not found at /Canvas/Inventory. Skipping old inventory slot icons.");
+        return;
+    }
+
+    for (int i = 0; i < LIST_CAPACITY; i++)
+    {
+        if (i < inventoryUI.transform.childCount)
+        {
+            slotIcons[i] = inventoryUI.transform.GetChild(i).gameObject;
+        }
+    }
+
+    UpdateUI();
+}
 	// --- NEW: Item Rotation Logic ---
 	public void RotateHeldItem(Vector2 lookInput)
 	{
@@ -236,22 +247,30 @@ public class Inventory : MonoBehaviour
 	}
 
 	private void UpdateUI()
-	{
-			for (ushort i = 0; i < slotIcons.Length; i++)
-			{
-					if (items[i] != null)
-					{
-							Image img = slotIcons[i].GetComponent<Image>();
-							img.sprite = items[i].icon;
-							slotIcons[i].SetActive(true);
-					}
-					else
-					{
-							slotIcons[i].SetActive(false); // Hide icon if slot is empty
-					}
-			}
-	}
+{
+    if (slotIcons == null) return;
 
+    for (ushort i = 0; i < slotIcons.Length; i++)
+    {
+        if (slotIcons[i] == null) continue;
+
+        if (items[i] != null)
+        {
+            Image img = slotIcons[i].GetComponent<Image>();
+
+            if (img != null)
+            {
+                img.sprite = items[i].icon;
+            }
+
+            slotIcons[i].SetActive(true);
+        }
+        else
+        {
+            slotIcons[i].SetActive(false);
+        }
+    }
+}
 	// --- SELECTION & INPUT LOGIC ---
 
 	// Centralized method to handle slot changes so we don't repeat the two-handed check
