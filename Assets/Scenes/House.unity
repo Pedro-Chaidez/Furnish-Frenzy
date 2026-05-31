@@ -288,6 +288,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &317722207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 317722209}
+  - component: {fileID: 317722208}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &317722208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317722207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97cf6d89a18824ef49166ab77e61e655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelManager
+  levels:
+  - levelName: Monday
+    sceneToLoad: Level1
+    aggressiveNPCPrefab: {fileID: 3225021542896369469, guid: d8f95535390cad141bdf3d2cb3b93b0b, type: 3}
+    cowardNPCPrefab: {fileID: 4205087984305324065, guid: 535e0052c96a6534897a5bb8804abf2f, type: 3}
+    aggressiveNPCCount: 0
+    cowardNPCCount: 0
+    spawnPoints: []
+  - levelName: Tuesday
+    sceneToLoad: Levell2
+    aggressiveNPCPrefab: {fileID: 3225021542896369469, guid: d8f95535390cad141bdf3d2cb3b93b0b, type: 3}
+    cowardNPCPrefab: {fileID: 4205087984305324065, guid: 535e0052c96a6534897a5bb8804abf2f, type: 3}
+    aggressiveNPCCount: 0
+    cowardNPCCount: 0
+    spawnPoints: []
+--- !u!4 &317722209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317722207}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -27.52391, y: 0, z: 24.85269}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &373444206
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,7 +747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f0cca1c64c52884b901df75150985e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorTeleport
-  promptMessage: Ready to Start a new Day?
+  promptMessage: Ready to start a new day?
 --- !u!65 &1989478860
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -781,3 +840,4 @@ SceneRoots:
   - {fileID: 90004577}
   - {fileID: 1293011592}
   - {fileID: 70521951}
+  - {fileID: 317722209}
