@@ -326,28 +326,7 @@ MonoBehaviour:
     cowardNPCCount: 0
     spawnPoints: []
   - levelName: Tuesday
-    sceneToLoad: Tuesday
-    aggressiveNPCPrefab: {fileID: 3225021542896369469, guid: d8f95535390cad141bdf3d2cb3b93b0b, type: 3}
-    cowardNPCPrefab: {fileID: 4205087984305324065, guid: 535e0052c96a6534897a5bb8804abf2f, type: 3}
-    aggressiveNPCCount: 0
-    cowardNPCCount: 0
-    spawnPoints: []
-  - levelName: Wednesday
-    sceneToLoad: Wednesday
-    aggressiveNPCPrefab: {fileID: 3225021542896369469, guid: d8f95535390cad141bdf3d2cb3b93b0b, type: 3}
-    cowardNPCPrefab: {fileID: 4205087984305324065, guid: 535e0052c96a6534897a5bb8804abf2f, type: 3}
-    aggressiveNPCCount: 0
-    cowardNPCCount: 0
-    spawnPoints: []
-  - levelName: Thursday
-    sceneToLoad: Thursday
-    aggressiveNPCPrefab: {fileID: 3225021542896369469, guid: d8f95535390cad141bdf3d2cb3b93b0b, type: 3}
-    cowardNPCPrefab: {fileID: 4205087984305324065, guid: 535e0052c96a6534897a5bb8804abf2f, type: 3}
-    aggressiveNPCCount: 0
-    cowardNPCCount: 0
-    spawnPoints: []
-  - levelName: Friday
-    sceneToLoad: Friday
+    sceneToLoad: Levell2
     aggressiveNPCPrefab: {fileID: 3225021542896369469, guid: d8f95535390cad141bdf3d2cb3b93b0b, type: 3}
     cowardNPCPrefab: {fileID: 4205087984305324065, guid: 535e0052c96a6534897a5bb8804abf2f, type: 3}
     aggressiveNPCCount: 0
