@@ -43,14 +43,35 @@ public class StoreItem : Interactable
         }
  
         GameObject pickupRoot = FindScenePickupRoot();
-        GameObject pickedPrefab = itemData.FindVariant(pickupRoot) ?? itemData.FindVariant(gameObject) ?? FindVariantFromParentsOrChildren();
+        GameObject pickedPrefab = itemData.FindVariant(pickupRoot) 
+            ?? itemData.FindVariant(gameObject) 
+            ?? FindVariantFromParentsOrChildren();
+
         bool isBig = IsBigItem();
         bool added = cartInventory.AddItem(itemData, isBig, pickedPrefab, pickupRoot);
  
         if (added)
         {
             CartUI.Instance?.RefreshUI();
-            pickupRoot.SetActive(false);
+
+            // ✅ DON'T call SetActive(false) — ShoppingCart3D will parent and show it
+            // Just disable physics and interaction so it doesn't float away
+            // before RefreshCartVisuals runs
+            Rigidbody rb = pickupRoot.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.useGravity = false;
+            }
+
+            // Disable colliders so player doesn't keep interacting with it
+            foreach (var col in pickupRoot.GetComponentsInChildren<Collider>(true))
+                col.enabled = false;
+
+            // Disable StoreItem so it can't be picked up again
+            this.enabled = false;
         }
     }
  
@@ -96,7 +117,8 @@ public class StoreItem : Interactable
         Transform current = transform;
         while (current != null)
         {
-            if (itemData.FindVariant(current.gameObject) != null && !current.GetComponent<ShoppingCart3D>())
+            if (itemData.FindVariant(current.gameObject) != null && 
+                !current.GetComponent<ShoppingCart3D>())
                 return current.gameObject;
 
             current = current.parent;
