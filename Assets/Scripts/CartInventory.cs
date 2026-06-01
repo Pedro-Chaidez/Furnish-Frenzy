@@ -7,10 +7,10 @@ public class CartInventory : MonoBehaviour
     public static System.Action InventoryChanged;
 
     // Pair each item with the exact prefab chosen at pickup
-    private List<(FurnitureItem item, GameObject prefab)> cartItems 
-        = new List<(FurnitureItem, GameObject)>();
-    private List<(FurnitureItem item, GameObject prefab)> handItems 
-        = new List<(FurnitureItem, GameObject)>();
+    private List<(FurnitureItem item, GameObject prefab, GameObject sceneObject)> cartItems
+        = new List<(FurnitureItem, GameObject, GameObject)>();
+    private List<(FurnitureItem item, GameObject prefab, GameObject sceneObject)> handItems
+        = new List<(FurnitureItem, GameObject, GameObject)>();
     private HashSet<FurnitureItem> placedItems = new HashSet<FurnitureItem>();
 
     private void Awake()
@@ -20,14 +20,24 @@ public class CartInventory : MonoBehaviour
 
     public bool AddItem(FurnitureItem item, bool isBig)
     {
+        return AddItem(item, isBig, null);
+    }
+
+    public bool AddItem(FurnitureItem item, bool isBig, GameObject pickedPrefab)
+    {
+        return AddItem(item, isBig, pickedPrefab, null);
+    }
+
+    public bool AddItem(FurnitureItem item, bool isBig, GameObject pickedPrefab, GameObject pickedSceneObject)
+    {
         if (item == null)
         {
             Debug.LogWarning("Tried to add a null FurnitureItem.");
             return false;
         }
 
-        // Pick the exact prefab variant right now at pickup time
-        GameObject chosenPrefab = item.PickVariant();
+        // Keep the exact store-display variant when we can identify it.
+        GameObject chosenPrefab = pickedPrefab != null ? item.PickVariant(pickedPrefab) : item.PickVariant();
 
         if (isBig)
         {
@@ -37,7 +47,7 @@ public class CartInventory : MonoBehaviour
                 return false;
             }
 
-            handItems.Add((item, chosenPrefab));
+            handItems.Add((item, chosenPrefab, pickedSceneObject));
             Debug.Log($"Added {item.itemName} [{chosenPrefab?.name}] to hands");
             InventoryChanged?.Invoke();
             return true;
@@ -52,14 +62,14 @@ public class CartInventory : MonoBehaviour
                 return false;
             }
 
-            cartItems.Add((item, chosenPrefab));
+            cartItems.Add((item, chosenPrefab, pickedSceneObject));
             Debug.Log($"Added {item.itemName} [{chosenPrefab?.name}] to cart ({cartItems.Count}/{maxSmallItems})");
             InventoryChanged?.Invoke();
             return true;
         }
     }
 
-    // ── Getters ───────────────────────────────────────────────────────────────
+    // Getters
 
     public List<FurnitureItem> GetCartItems()
     {
@@ -82,11 +92,23 @@ public class CartInventory : MonoBehaviour
         return cartItems[index].prefab;
     }
 
+    public GameObject GetCartSceneObject(int index)
+    {
+        if (index < 0 || index >= cartItems.Count) return null;
+        return cartItems[index].sceneObject;
+    }
+
     // Returns the chosen prefab for a hand item at a given index
     public GameObject GetHandPrefab(int index)
     {
         if (index < 0 || index >= handItems.Count) return null;
         return handItems[index].prefab;
+    }
+
+    public GameObject GetHandSceneObject(int index)
+    {
+        if (index < 0 || index >= handItems.Count) return null;
+        return handItems[index].sceneObject;
     }
 
     public FurnitureItem GetBigItem()
@@ -99,6 +121,11 @@ public class CartInventory : MonoBehaviour
         return handItems.Count > 0 ? handItems[0].prefab : null;
     }
 
+    public GameObject GetBigItemSceneObject()
+    {
+        return handItems.Count > 0 ? handItems[0].sceneObject : null;
+    }
+
     public int GetVisualOccupancy()
     {
         if (handItems.Count > 0)
@@ -106,7 +133,7 @@ public class CartInventory : MonoBehaviour
         return Mathf.Min(cartItems.Count, 6);
     }
 
-    // ── Cart management ───────────────────────────────────────────────────────
+    // Cart management
 
     public void ClearCart()
     {

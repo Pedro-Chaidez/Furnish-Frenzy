@@ -42,14 +42,15 @@ public class StoreItem : Interactable
             return;
         }
  
-        // CartInventory.AddItem now handles PickVariant internally
+        GameObject pickupRoot = FindScenePickupRoot();
+        GameObject pickedPrefab = itemData.FindVariant(pickupRoot) ?? itemData.FindVariant(gameObject) ?? FindVariantFromParentsOrChildren();
         bool isBig = IsBigItem();
-        bool added = cartInventory.AddItem(itemData, isBig);
+        bool added = cartInventory.AddItem(itemData, isBig, pickedPrefab, pickupRoot);
  
         if (added)
         {
             CartUI.Instance?.RefreshUI();
-            gameObject.SetActive(false);
+            pickupRoot.SetActive(false);
         }
     }
  
@@ -66,5 +67,47 @@ public class StoreItem : Interactable
  
         return false;
     }
+
+    private GameObject FindVariantFromParentsOrChildren()
+    {
+        if (itemData == null) return null;
+
+        Transform current = transform.parent;
+        while (current != null)
+        {
+            GameObject match = itemData.FindVariant(current.gameObject);
+            if (match != null) return match;
+            current = current.parent;
+        }
+
+        foreach (Transform child in GetComponentsInChildren<Transform>(true))
+        {
+            GameObject match = itemData.FindVariant(child.gameObject);
+            if (match != null) return match;
+        }
+
+        return null;
+    }
+
+    private GameObject FindScenePickupRoot()
+    {
+        if (itemData == null) return gameObject;
+
+        Transform current = transform;
+        while (current != null)
+        {
+            if (itemData.FindVariant(current.gameObject) != null && !current.GetComponent<ShoppingCart3D>())
+                return current.gameObject;
+
+            current = current.parent;
+        }
+
+        foreach (Transform child in GetComponentsInChildren<Transform>(true))
+        {
+            if (itemData.FindVariant(child.gameObject) != null)
+                return child.gameObject;
+        }
+
+        return gameObject;
+    }
 }
- 
