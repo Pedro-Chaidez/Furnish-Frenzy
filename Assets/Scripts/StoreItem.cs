@@ -1,3 +1,4 @@
+
 using UnityEngine;
  
 public class StoreItem : Interactable
@@ -42,37 +43,47 @@ public class StoreItem : Interactable
             return;
         }
  
-        GameObject pickupRoot = FindScenePickupRoot();
-        GameObject pickedPrefab = itemData.FindVariant(pickupRoot) 
-            ?? itemData.FindVariant(gameObject) 
-            ?? FindVariantFromParentsOrChildren();
-
         bool isBig = IsBigItem();
-        bool added = cartInventory.AddItem(itemData, isBig, pickedPrefab, pickupRoot);
+ 
+        // Try to match a prefab variant from the scene object name
+        GameObject pickedPrefab = itemData.FindVariant(gameObject)
+            ?? FindVariantFromParentsOrChildren();
+ 
+        // If still null, just pick a random one — better than nothing
+        if (pickedPrefab == null)
+        {
+            pickedPrefab = itemData.GetRandomVariant();
+            Debug.Log($"{gameObject.name}: Could not match exact variant, using random: {pickedPrefab?.name}");
+        }
+        else
+        {
+            Debug.Log($"{gameObject.name}: Matched variant: {pickedPrefab.name}");
+        }
+ 
+        bool added = cartInventory.AddItem(itemData, isBig, pickedPrefab, null);
  
         if (added)
         {
             CartUI.Instance?.RefreshUI();
-
-            // ✅ DON'T call SetActive(false) — ShoppingCart3D will parent and show it
-            // Just disable physics and interaction so it doesn't float away
-            // before RefreshCartVisuals runs
-            Rigidbody rb = pickupRoot.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = true;
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-                rb.useGravity = false;
-            }
-
-            // Disable colliders so player doesn't keep interacting with it
-            foreach (var col in pickupRoot.GetComponentsInChildren<Collider>(true))
-                col.enabled = false;
-
-            // Disable StoreItem so it can't be picked up again
-            this.enabled = false;
+            GameObject rootToHide = FindStoreObjectRoot();
+            rootToHide.SetActive(false);
         }
+    }
+ 
+    private GameObject FindStoreObjectRoot()
+    {
+        Transform current = transform;
+ 
+        while (current.parent != null)
+        {
+            if (current.parent.GetComponent<ShoppingCart3D>() != null)
+                break;
+            if (current.parent.GetComponentsInChildren<StoreItem>().Length > 1)
+                break;
+            current = current.parent;
+        }
+ 
+        return current.gameObject;
     }
  
     private bool IsBigItem()
@@ -88,11 +99,11 @@ public class StoreItem : Interactable
  
         return false;
     }
-
+ 
     private GameObject FindVariantFromParentsOrChildren()
     {
         if (itemData == null) return null;
-
+ 
         Transform current = transform.parent;
         while (current != null)
         {
@@ -100,36 +111,13 @@ public class StoreItem : Interactable
             if (match != null) return match;
             current = current.parent;
         }
-
+ 
         foreach (Transform child in GetComponentsInChildren<Transform>(true))
         {
             GameObject match = itemData.FindVariant(child.gameObject);
             if (match != null) return match;
         }
-
+ 
         return null;
-    }
-
-    private GameObject FindScenePickupRoot()
-    {
-        if (itemData == null) return gameObject;
-
-        Transform current = transform;
-        while (current != null)
-        {
-            if (itemData.FindVariant(current.gameObject) != null && 
-                !current.GetComponent<ShoppingCart3D>())
-                return current.gameObject;
-
-            current = current.parent;
-        }
-
-        foreach (Transform child in GetComponentsInChildren<Transform>(true))
-        {
-            if (itemData.FindVariant(child.gameObject) != null)
-                return child.gameObject;
-        }
-
-        return gameObject;
     }
 }
