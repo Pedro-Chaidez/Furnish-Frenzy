@@ -5,11 +5,9 @@ public abstract class Entity : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float health = 100f;
-    public ushort teamID = 2;
- 
+    public float maxHealth = 100f; // NEW: Cap the health
+    public ushort teamID = 2; // 0 for Player, 1 for Enemy, 2 for Neutral
 
-    public event Action<float, float> OnHealthChanged;
- 
     public virtual void TakeDamage(float amount, GameObject source = null)
     {
         health -= amount;
@@ -23,13 +21,18 @@ public abstract class Entity : MonoBehaviour
         }
     }
 
+    // --- NEW: Healing Logic ---
     public virtual void Heal(float amount)
     {
         health += amount;
-        health = Mathf.Clamp(health, 0, maxHealth);
-        OnHealthChanged?.Invoke(health, maxHealth);
+
+        // Prevent health from going over the maximum
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
     }
- 
+
     protected virtual void Die()
     {
         Destroy(gameObject);
