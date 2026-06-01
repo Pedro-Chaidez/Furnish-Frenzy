@@ -30,12 +30,16 @@ jobs:
         with:
           lfs: true
 
+      # 2. Clear Library Cache
+      - name: Clear Library Cache
+        run: rm -rf Library
+
       # 2. Cache the Unity Library folder to drastically speed up CI runs
       - name: Cache Library
         uses: actions/cache@v3
         with:
           path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          key: Library-${{ hashFiles('Packages/manifest.json', 'Packages/packages-lock.json') }}
           restore-keys: |
             Library-
 

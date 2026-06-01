@@ -17,6 +17,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levell2.unity
     guid: 09119eec202cb234282961e58d7d3f40
+  - enabled: 1
+    path: Assets/Scenes/Monday.unity
+    guid: 04e037a67cd62ce40a63de08a3b39413
+  - enabled: 1
+    path: Assets/Scenes/Tuesday.unity
+    guid: e5f9af3b4a9c836478e542faead617cd
+  - enabled: 1
+    path: Assets/Scenes/Wednesday.unity
+    guid: d9a34f9c8905f284186601d1a343c85f
+  - enabled: 1
+    path: Assets/Scenes/Thursday.unity
+    guid: 5afaf34e99b5905488f993b6f5133bb5
+  - enabled: 1
+    path: Assets/Scenes/Friday.unity
+    guid: f3b8281efabf2f5438af613879319982
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 8a359052d73013046af0cccc79347d43, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
