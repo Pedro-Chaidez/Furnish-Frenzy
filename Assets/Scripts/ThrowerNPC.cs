@@ -1,11 +1,12 @@
 using UnityEngine;
+using System.Collections;
 
 public class ThrowerNPC : BaseNPC
 {
     [Header("Throw Settings")]
     public GameObject itemPrefab; // The item to throw
     public Transform throwPoint;  // Where the item spawns (e.g., the hand)
-    public float throwVelocity = 15f;
+    public float throwVelocity = 10f;
     public float throwAngle = 45f; // Upward angle in degrees
     public float throwRate = 2f;   // Seconds between throws
     private float nextThrowTime = 0f;
@@ -16,6 +17,19 @@ public class ThrowerNPC : BaseNPC
     public float moveSpeed = 3f;
 
     private bool isChasing = false;
+    private bool isThrowing = false;
+
+    protected override void Awake()
+    {
+        base.Awake(); // Sets the "Enemy" tag
+        teamID = 1;
+    }
+
+
+    protected override void UpdateAnimator()
+    {
+        base.UpdateAnimator(); // keeps Speed/Idle/Walk working
+    }
 
     protected override void PerformBehavior()
     {
@@ -72,9 +86,21 @@ public class ThrowerNPC : BaseNPC
         // Check if enough time has passed to throw again
         if (Time.time >= nextThrowTime)
         {
-            ThrowItem();
+            StartCoroutine(ThrowRoutine());
             nextThrowTime = Time.time + throwRate;
         }
+    }
+
+    private IEnumerator ThrowRoutine()
+    {
+        animator.SetBool("Throwing", true);
+        // Wait a moment for throw animation to wind up
+        yield return new WaitForSeconds(0.2f);
+
+        ThrowItem(); // actual item spawns mid animation
+
+        yield return new WaitForSeconds(0.9f);
+        animator.SetBool("Throwing", false);
     }
 
     private void ThrowItem()
