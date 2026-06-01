@@ -17,6 +17,16 @@ MonoBehaviour:
   price: 0
   defaultPlacementOffset: {x: 0, y: 0, z: 0}
   prefabVariants:
+  - {fileID: 2991467345084520702, guid: f34f09e70e02cc94683d8dbaaf079f2e, type: 3}
+  - {fileID: 2299578420850200342, guid: b235c805f008f6f4da469f7364846b10, type: 3}
+  - {fileID: 80893817524954484, guid: 579fa6f3f1bc72e49b3ff3c0b83f513d, type: 3}
+  - {fileID: 5951373164338049982, guid: e0a309163f5d1ef4e81367371dba0804, type: 3}
+  - {fileID: 1410729876697858063, guid: d6faf5893276ac14a8693f2ceeb9fece, type: 3}
+  - {fileID: 9014755301956853368, guid: 6c8c5607b1d615e4992b66dcbcf18c43, type: 3}
+  - {fileID: 695497795550067185, guid: dd9970b340623644eb4b3204eee4458e, type: 3}
+  - {fileID: 7224224261973349338, guid: c4357fd2cd18af449b8680904f04757c, type: 3}
+  - {fileID: 6988426106075308570, guid: b22049dea4e6c0940a9329bac4f37af7, type: 3}
+  - {fileID: 6878895662338868841, guid: 1e5e97974a99ac04381a0ae753c6fd6f, type: 3}
   - {fileID: 4655449816279751739, guid: 3f1f5f1f14dc67544a75f226d98a7196, type: 3}
   - {fileID: 937409136280886557, guid: 7fec35a964e821546815ca4bda656d44, type: 3}
   - {fileID: 4117182104570985203, guid: f08d616e0079da0449e594c2a2d79b50, type: 3}
@@ -67,4 +77,5 @@ MonoBehaviour:
   - {fileID: 3058228072928096368, guid: 7078a75e05f5c644c8c8f91c130d4c9e, type: 3}
   - {fileID: 334075912132503423, guid: c5120225eb0cf5349991af7bb3dc0375, type: 3}
   - {fileID: 6591791863778875051, guid: fa5696b1320396f4e99213e7c3e7e974, type: 3}
+  - {fileID: 6170273324507501305, guid: 88f87e731e0a02345a14f5adc02732ce, type: 3}
   chosenVariant: {fileID: 0}

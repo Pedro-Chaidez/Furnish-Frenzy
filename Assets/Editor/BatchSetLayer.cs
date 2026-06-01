@@ -1,98 +1,77 @@
+#if UNITY_EDITOR
 using UnityEngine;
+using UnityEditor;
 
-public class StoreItem : Interactable
+public class BatchSetLayer : EditorWindow
 {
-    [Header("Item Data")]
-    public FurnitureItem itemData;
+    private string layerName = "Interactable";
+    private bool includeChildren = true;
 
-    [Header("Inventory Reference")]
-    public CartInventory cartInventory;
-
-    [Header("Interaction")]
-    public float interactRadius = 4f;
-
-    private string[] bigItemCategories =
+    [MenuItem("Tools/Furniture Frenzy/Batch Set Layer")]
+    public static void ShowWindow()
     {
-        "Bed", "Sofa", "Table", "Chair", "Closet",
-        "Kitchen", "Bathroom", "Drawer", "Cushion"
-    };
+        GetWindow<BatchSetLayer>("Batch Set Layer");
+    }
 
-    private void Awake()
+    private void OnGUI()
     {
-        if (string.IsNullOrEmpty(promptMessage))
+        GUILayout.Label("Batch Set Layer", EditorStyles.boldLabel);
+        EditorGUILayout.Space();
+
+        layerName = EditorGUILayout.TextField("Layer Name", layerName);
+        includeChildren = EditorGUILayout.Toggle("Include Children", includeChildren);
+
+        EditorGUILayout.HelpBox(
+            "Select objects in the Hierarchy, then click the button. This tool only sets layers. It does not define StoreItem.",
+            MessageType.Info);
+
+        if (GUILayout.Button("Set Selected Objects To Layer", GUILayout.Height(36)))
         {
-            promptMessage = "Press E to add to cart";
+            SetSelectedObjectsToLayer();
         }
     }
 
-    protected override void Interact()
+    private void SetSelectedObjectsToLayer()
     {
-        TryAddToCart();
-    }
-
-    private void TryAddToCart()
-    {
-        if (itemData == null)
+        int layer = LayerMask.NameToLayer(layerName);
+        if (layer < 0)
         {
-            Debug.LogWarning($"{gameObject.name} has no FurnitureItem assigned!");
+            Debug.LogError($"Layer '{layerName}' does not exist. Create it in Project Settings > Tags and Layers first.");
             return;
         }
 
-        FindCartInventoryIfMissing();
-
-        if (cartInventory == null)
+        GameObject[] selectedObjects = Selection.gameObjects;
+        if (selectedObjects == null || selectedObjects.Length == 0)
         {
-            Debug.LogWarning($"{gameObject.name}: CartInventory reference is missing. Drag the CartInventory object into this StoreItem.");
+            Debug.LogWarning("No GameObjects selected.");
             return;
         }
 
-        bool isBig = IsBigItem();
-        bool added = cartInventory.AddItem(itemData, isBig);
-
-        if (added)
+        int changed = 0;
+        foreach (GameObject selectedObject in selectedObjects)
         {
-            Debug.Log($"Added {itemData.itemName} to {(isBig ? "hands" : "cart")}");
-            CartUI.Instance?.RefreshUI();
+            if (selectedObject == null) continue;
 
-            gameObject.SetActive(false);
-        }
-    }
-
-    private void FindCartInventoryIfMissing()
-    {
-        if (cartInventory != null) return;
-
-        cartInventory = CartInventory.Instance;
-
-        if (cartInventory != null) return;
-
-        cartInventory = Object.FindAnyObjectByType<CartInventory>();
-
-        if (cartInventory != null) return;
-
-        GameObject obj = GameObject.Find("CartInventory");
-
-        if (obj != null)
-        {
-            cartInventory = obj.GetComponent<CartInventory>();
-        }
-    }
-
-    private bool IsBigItem()
-    {
-        if (itemData == null || string.IsNullOrEmpty(itemData.itemName))
-        {
-            return false;
-        }
-
-        foreach (string category in bigItemCategories)
-        {
-            if (itemData.itemName.Contains(category))
+            if (includeChildren)
             {
-                return true;
+                foreach (Transform child in selectedObject.GetComponentsInChildren<Transform>(true))
+                {
+                    Undo.RecordObject(child.gameObject, "Batch Set Layer");
+                    child.gameObject.layer = layer;
+                    EditorUtility.SetDirty(child.gameObject);
+                    changed++;
+                }
+            }
+            else
+            {
+                Undo.RecordObject(selectedObject, "Batch Set Layer");
+                selectedObject.layer = layer;
+                EditorUtility.SetDirty(selectedObject);
+                changed++;
             }
         }
 
-        return false;
+        Debug.Log($"BatchSetLayer: Set {changed} object(s) to layer '{layerName}'.");
     }
 }
+#endif

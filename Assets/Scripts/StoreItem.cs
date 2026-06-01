@@ -1,31 +1,43 @@
-
 using UnityEngine;
- 
+
 public class StoreItem : Interactable
 {
     [Header("Item Data")]
     public FurnitureItem itemData;
- 
+
+    [Header("Inventory Reference")]
+    public CartInventory cartInventory;
+
     [Header("Interaction")]
     public float interactRadius = 4f;
- 
-    private string[] bigItemCategories =
+
+    [Header("Carry Size Override")]
+    [Tooltip("Turn this on only for furniture that should take the player's hands instead of a cart slot.")]
+    public bool forceBigItem = false;
+
+    [Tooltip("Turn this on for objects that should always go into the cart, even if their category name normally sounds large.")]
+    public bool forceSmallItem = false;
+
+    // Only these should block the player's hands by default.
+    // Cushions, pillows, lamps, plates, cups, jars, plants, small decor, etc. should NOT be here.
+    private readonly string[] defaultBigItemCategories =
     {
-        "Bed", "Sofa", "Table", "Closet",
-        "Kitchen", "Bathroom", "Drawer"
+        "Bed", "Sofa", "Couch", "Table", "Closet", "Wardrobe", "Drawer", "Dresser", "Cabinet"
     };
- 
+
     private void Awake()
     {
         if (string.IsNullOrEmpty(promptMessage))
+        {
             promptMessage = "Press E to add to cart";
+        }
     }
- 
+
     protected override void Interact()
     {
         TryAddToCart();
     }
- 
+
     private void TryAddToCart()
     {
         if (itemData == null)
@@ -33,91 +45,69 @@ public class StoreItem : Interactable
             Debug.LogWarning($"{gameObject.name} has no FurnitureItem assigned!");
             return;
         }
- 
-        CartInventory cartInventory = CartInventory.Instance
-            ?? Object.FindAnyObjectByType<CartInventory>();
- 
+
+        FindCartInventoryIfMissing();
+
         if (cartInventory == null)
         {
-            Debug.LogWarning($"{gameObject.name}: No CartInventory found at runtime.");
+            Debug.LogWarning($"{gameObject.name}: CartInventory reference is missing.");
             return;
         }
- 
+
         bool isBig = IsBigItem();
- 
-        // Try to match a prefab variant from the scene object name
-        GameObject pickedPrefab = itemData.FindVariant(gameObject)
-            ?? FindVariantFromParentsOrChildren();
- 
-        // If still null, just pick a random one — better than nothing
-        if (pickedPrefab == null)
+
+        // Pass this scene object so CartInventory/FurnitureItem can try to keep the exact variant.
+        bool added = cartInventory.AddItem(itemData, isBig, gameObject, gameObject);
+
+        if (added)
         {
-            pickedPrefab = itemData.GetRandomVariant();
-            Debug.Log($"{gameObject.name}: Could not match exact variant, using random: {pickedPrefab?.name}");
+            Debug.Log($"Added {itemData.itemName} from {gameObject.name} to {(isBig ? "hands" : "cart")}");
+            CartUI.Instance?.RefreshUI();
+            gameObject.SetActive(false);
         }
         else
         {
-            Debug.Log($"{gameObject.name}: Matched variant: {pickedPrefab.name}");
-        }
- 
-        bool added = cartInventory.AddItem(itemData, isBig, pickedPrefab, null);
- 
-        if (added)
-        {
-            CartUI.Instance?.RefreshUI();
-            GameObject rootToHide = FindStoreObjectRoot();
-            rootToHide.SetActive(false);
+            Debug.Log($"Could not add {itemData.itemName} from {gameObject.name}. Cart/hands may be full.");
         }
     }
- 
-    private GameObject FindStoreObjectRoot()
+
+    private void FindCartInventoryIfMissing()
     {
-        Transform current = transform;
- 
-        while (current.parent != null)
-        {
-            if (current.parent.GetComponent<ShoppingCart3D>() != null)
-                break;
-            if (current.parent.GetComponentsInChildren<StoreItem>().Length > 1)
-                break;
-            current = current.parent;
-        }
- 
-        return current.gameObject;
+        if (cartInventory != null) return;
+
+        cartInventory = CartInventory.Instance;
+        if (cartInventory != null) return;
+
+        cartInventory = Object.FindAnyObjectByType<CartInventory>();
+        if (cartInventory != null) return;
+
+        GameObject obj = GameObject.Find("CartInventorySystem");
+        if (obj != null) cartInventory = obj.GetComponent<CartInventory>();
+
+        if (cartInventory != null) return;
+
+        obj = GameObject.Find("CartInventory");
+        if (obj != null) cartInventory = obj.GetComponent<CartInventory>();
     }
- 
+
     private bool IsBigItem()
     {
+        if (forceSmallItem) return false;
+        if (forceBigItem) return true;
+
         if (itemData == null || string.IsNullOrEmpty(itemData.itemName))
+        {
             return false;
- 
-        foreach (string category in bigItemCategories)
+        }
+
+        foreach (string category in defaultBigItemCategories)
         {
             if (itemData.itemName.Contains(category))
+            {
                 return true;
+            }
         }
- 
+
         return false;
-    }
- 
-    private GameObject FindVariantFromParentsOrChildren()
-    {
-        if (itemData == null) return null;
- 
-        Transform current = transform.parent;
-        while (current != null)
-        {
-            GameObject match = itemData.FindVariant(current.gameObject);
-            if (match != null) return match;
-            current = current.parent;
-        }
- 
-        foreach (Transform child in GetComponentsInChildren<Transform>(true))
-        {
-            GameObject match = itemData.FindVariant(child.gameObject);
-            if (match != null) return match;
-        }
- 
-        return null;
     }
 }
