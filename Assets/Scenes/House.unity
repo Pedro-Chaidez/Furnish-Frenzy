@@ -548,6 +548,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6765544763261747918, guid: 197d3af0b24a8264abc418300923f3d3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1954740325}
+    - targetCorrespondingSourceObject: {fileID: 6765544763261747918, guid: 197d3af0b24a8264abc418300923f3d3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1280565045}
+    - targetCorrespondingSourceObject: {fileID: 6765544763261747918, guid: 197d3af0b24a8264abc418300923f3d3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1403467611}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 197d3af0b24a8264abc418300923f3d3, type: 3}
 --- !u!1 &1133145892 stripped
@@ -555,6 +561,37 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6077323080741279748, guid: 459aaf81641780e468e5dc143dc46a42, type: 3}
   m_PrefabInstance: {fileID: 90004577}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1280565044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1280565045}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1280565045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280565044}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.92, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2029104311}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1293011592
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -616,6 +653,62 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fc85cc511c4d624093d22840d47cccc, type: 3}
+--- !u!1 &1403467610
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1403467611}
+  - component: {fileID: 1403467612}
+  m_Layer: 0
+  m_Name: ItemSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1403467611
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403467610}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2029104311}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1403467612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403467610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ab59003b669364c894262a58800102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HouseItemSpawner
+  allItems:
+  - {fileID: 11400000, guid: 1fced42bab68c944daa15c2947f0e5e6, type: 2}
+  - {fileID: 11400000, guid: a27eac767afcaaa46b95b67b96b746a6, type: 2}
+  - {fileID: 11400000, guid: d6426097d2f059446b92da007a5463f8, type: 2}
+  - {fileID: 11400000, guid: 43375987a65e1974a97ffd22bce5defd, type: 2}
+  - {fileID: 11400000, guid: c671547b0d74f414d9dbb16bb9d9979c, type: 2}
+  - {fileID: 11400000, guid: 8bc70b60bf6c858468ead8cfcb86ec2b, type: 2}
+  - {fileID: 11400000, guid: 9b85540c1c2d3e14ba1aa2b03221ab90, type: 2}
+  - {fileID: 11400000, guid: 8626c12f51d901e45a8f49e9173c7b27, type: 2}
+  - {fileID: 11400000, guid: 270a953362ec77a49b70d1518898b794, type: 2}
+  spawnPoint: {fileID: 1280565045}
+  spreadDistance: 1.5
 --- !u!114 &1415683655 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3385635891319045670, guid: 2fc85cc511c4d624093d22840d47cccc, type: 3}
