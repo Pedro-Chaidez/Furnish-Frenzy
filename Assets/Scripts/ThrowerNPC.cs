@@ -6,7 +6,7 @@ public class ThrowerNPC : BaseNPC
     [Header("Throw Settings")]
     public GameObject itemPrefab; // The item to throw
     public Transform throwPoint;  // Where the item spawns (e.g., the hand)
-    public float throwVelocity = 10f;
+    public float throwVelocity = 15f;
     public float throwAngle = 45f; // Upward angle in degrees
     public float throwRate = 2f;   // Seconds between throws
     private float nextThrowTime = 0f;
@@ -17,14 +17,12 @@ public class ThrowerNPC : BaseNPC
     public float moveSpeed = 3f;
 
     private bool isChasing = false;
-    private bool isThrowing = false;
 
     protected override void Awake()
     {
         base.Awake(); // Sets the "Enemy" tag
         teamID = 1;
     }
-
 
     protected override void UpdateAnimator()
     {
