@@ -1,5 +1,5 @@
 using UnityEngine;
-
+ 
 public abstract class Item : Interactable
 {
     public string itemName;
@@ -8,7 +8,7 @@ public abstract class Item : Interactable
     protected float durability;
     public bool needsTwoHandsToPickUp;
     public HeldItemPhysics physicsController;
-
+ 
     [Header("Damage Settings")]
     public float damageVelocityThreshold = 5f;
     public float itemDamage = 25f;
@@ -21,9 +21,9 @@ public abstract class Item : Interactable
     {
         physicsController = GetComponent<HeldItemPhysics>();
     }
-
+ 
     public abstract void useItem();
-
+ 
     protected override void Interact()
     {
         if (Inventory.instance.AddItem(this))
@@ -39,10 +39,10 @@ public abstract class Item : Interactable
             Inventory.instance.EquipItem();
         }
     }
-
+ 
     public virtual void OnEquipCustom(Transform playerTransform) { }
     public virtual void OnUnequipCustom() { }
-
+ 
     public virtual void OnDrop(float force, Vector3 direction)
     {
         Rigidbody rb = GetComponent<Rigidbody>();
