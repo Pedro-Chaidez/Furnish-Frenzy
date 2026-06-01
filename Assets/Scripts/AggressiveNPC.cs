@@ -1,4 +1,10 @@
 using UnityEngine;
+ 
+public class AggressiveNPC : BaseNPC
+{
+    // These get set by LevelManager based on the current level
+    public float moveSpeed = 2f;
+ 
 using System.Collections;
 
 public class AggressiveNPC : BaseNPC
@@ -10,6 +16,7 @@ public class AggressiveNPC : BaseNPC
         base.Awake(); // Sets the "Enemy" tag
         teamID = 1;
     }
+ 
 
     protected override void UpdateAnimator()
     {
@@ -22,16 +29,27 @@ public class AggressiveNPC : BaseNPC
         if (isAttacking) return;
 
         float distance = Vector3.Distance(transform.position, currentTarget.transform.position);
-
         if (distance <= attackRange)
         {
             StartCoroutine(AttackRoutine());
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, currentTarget.transform.position, 2f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                currentTarget.transform.position,
+                moveSpeed * Time.deltaTime
+            );
         }
     }
+ 
+    // Called by LevelManager to scale difficulty
+    public void SetDifficulty(float speed, float damage)
+    {
+        moveSpeed = speed;
+        attackDamage = damage;
+    }
+}
 
     private IEnumerator AttackRoutine()
     {
