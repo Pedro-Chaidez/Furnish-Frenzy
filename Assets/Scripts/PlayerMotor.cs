@@ -16,9 +16,11 @@ public class PlayerMotor : MonoBehaviour
     public float gravity = -10f;
     public float jumpHeight = 7f;
 
+    private Animator animator;
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -65,6 +67,12 @@ public class PlayerMotor : MonoBehaviour
             playerVelocity.y = -2f;
 
         controller.Move(playerVelocity * Time.deltaTime);
+
+        if (animator != null)
+        {
+            float animSpeed = input.magnitude * currentSpeed;
+            animator.SetFloat("Speed", animSpeed);
+        }
     }
 
     public void Jump()
