@@ -192,8 +192,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3362162512256296704}
-  - component: {fileID: 6388963181561712703}
   - component: {fileID: 3831330063916497916}
+  - component: {fileID: 3397758913914278992}
   m_Layer: 0
   m_Name: Bed29
   m_TagString: Untagged
@@ -217,27 +217,6 @@ Transform:
   - {fileID: 9196504597881834056}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6388963181561712703
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4244488383708506831}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5.071759, y: 5.1202917, z: 5.8746233}
-  m_Center: {x: 0.14912724, y: 2.5601454, z: 0.00000023841858}
 --- !u!54 &3831330063916497916
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -265,6 +244,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &3397758913914278992
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4244488383708506831}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.071759, y: 5.1202917, z: 5.8746233}
+  m_Center: {x: 0.14912724, y: 2.5601454, z: 0.00000023841858}
 --- !u!1 &4411229766845007118
 GameObject:
   m_ObjectHideFlags: 0

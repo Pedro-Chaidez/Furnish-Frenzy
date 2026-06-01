@@ -190,8 +190,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5356186964543069871}
-  - component: {fileID: 5945628042547913532}
   - component: {fileID: 1752202887202010765}
+  - component: {fileID: 7228088790124082870}
   m_Layer: 0
   m_Name: WashBasin01
   m_TagString: Untagged
@@ -215,27 +215,6 @@ Transform:
   - {fileID: 40527860594089413}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5945628042547913532
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4940036323664925308}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.6295877, y: 0.66728556, z: 1.1011044}
-  m_Center: {x: 0.00000047683716, y: 0.332974, z: 0.013671756}
 --- !u!54 &1752202887202010765
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -263,6 +242,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &7228088790124082870
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4940036323664925308}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6295877, y: 0.66728556, z: 1.1011044}
+  m_Center: {x: 0.00000047683716, y: 0.332974, z: 0.013671756}
 --- !u!1 &6471252899335422631
 GameObject:
   m_ObjectHideFlags: 0

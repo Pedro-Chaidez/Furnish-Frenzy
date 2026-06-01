@@ -101,8 +101,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 746351002772371651}
-  - component: {fileID: 9059045695073022249}
   - component: {fileID: 4093814672357506230}
+  - component: {fileID: 8568522300282025809}
   m_Layer: 0
   m_Name: ShowerSystem02
   m_TagString: Untagged
@@ -126,27 +126,6 @@ Transform:
   - {fileID: 7959753560074846813}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &9059045695073022249
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2674894531414578000}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.7057848, y: 3.3975618, z: 1.0640681}
-  m_Center: {x: 0.000000029802322, y: 0.98630106, z: -0.53203404}
 --- !u!54 &4093814672357506230
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -174,6 +153,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &8568522300282025809
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2674894531414578000}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7057848, y: 3.3975618, z: 1.0640681}
+  m_Center: {x: 0.000000029802322, y: 0.98630106, z: -0.53203404}
 --- !u!1 &7642264352744267051
 GameObject:
   m_ObjectHideFlags: 0

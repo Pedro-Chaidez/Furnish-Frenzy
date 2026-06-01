@@ -369,8 +369,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6320405740757999005}
-  - component: {fileID: 7876007004165566198}
   - component: {fileID: 4643783739547982306}
+  - component: {fileID: 7677982798306625902}
   m_Layer: 0
   m_Name: Drawer38
   m_TagString: Untagged
@@ -394,27 +394,6 @@ Transform:
   - {fileID: 1235309663377145070}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7876007004165566198
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3775039548583726553}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3.4549375, y: 2.3304229, z: 1.3039244}
-  m_Center: {x: 0, y: 1.1652113, z: 0.000000059604645}
 --- !u!54 &4643783739547982306
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -442,6 +421,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &7677982798306625902
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3775039548583726553}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.4549375, y: 2.3304229, z: 1.3039244}
+  m_Center: {x: 0, y: 1.1652113, z: 0.000000059604645}
 --- !u!1 &4400529233245360767
 GameObject:
   m_ObjectHideFlags: 0

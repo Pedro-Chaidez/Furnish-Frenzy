@@ -281,8 +281,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9148013235534089885}
-  - component: {fileID: 4152808637219623176}
   - component: {fileID: 8311989093033967788}
+  - component: {fileID: 4818164297918291436}
   m_Layer: 0
   m_Name: CabinetE_Sink
   m_TagString: Untagged
@@ -306,27 +306,6 @@ Transform:
   - {fileID: 9026874605071780737}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4152808637219623176
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8264316873831371952}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.8512301, y: 2.0170276, z: 1.3120253}
-  m_Center: {x: -0.9200938, y: 1.0085136, z: 0.5472993}
 --- !u!54 &8311989093033967788
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -354,3 +333,24 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &4818164297918291436
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264316873831371952}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.8512301, y: 2.0170276, z: 1.3120253}
+  m_Center: {x: -0.9200938, y: 1.0085136, z: 0.5472993}

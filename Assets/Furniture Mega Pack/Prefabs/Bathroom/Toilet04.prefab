@@ -373,8 +373,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3816858777415662254}
-  - component: {fileID: 5168659844346921465}
   - component: {fileID: 3365611211051097232}
+  - component: {fileID: 5482696928699348952}
   m_Layer: 0
   m_Name: Toilet04
   m_TagString: Untagged
@@ -398,27 +398,6 @@ Transform:
   - {fileID: 3819499274358746576}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5168659844346921465
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8685153246077714330}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.7636779, y: 2.3197837, z: 1.0959469}
-  m_Center: {x: 0, y: 1.1591414, z: -0.13804436}
 --- !u!54 &3365611211051097232
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -446,6 +425,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &5482696928699348952
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8685153246077714330}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7636779, y: 2.3197837, z: 1.0959469}
+  m_Center: {x: 0, y: 1.1591414, z: -0.13804436}
 --- !u!1 &9010981360363683038
 GameObject:
   m_ObjectHideFlags: 0

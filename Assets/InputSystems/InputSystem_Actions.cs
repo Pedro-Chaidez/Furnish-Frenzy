@@ -237,6 +237,15 @@ namespace Unity.MP_FPS
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""1bd67f47-3908-4723-9bc3-bd73251f297f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -622,6 +631,17 @@ namespace Unity.MP_FPS
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""115de024-004d-47fb-bafe-e1b2f2f5e611"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""RotateItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1225,6 +1245,7 @@ namespace Unity.MP_FPS
             m_Player_SelectFourthItem = m_Player.FindAction("SelectFourthItem", throwIfNotFound: true);
             m_Player_SelectFifthItem = m_Player.FindAction("SelectFifthItem", throwIfNotFound: true);
             m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
+            m_Player_RotateItem = m_Player.FindAction("RotateItem", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1334,6 +1355,7 @@ namespace Unity.MP_FPS
         private readonly InputAction m_Player_SelectFourthItem;
         private readonly InputAction m_Player_SelectFifthItem;
         private readonly InputAction m_Player_Block;
+        private readonly InputAction m_Player_RotateItem;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -1410,6 +1432,10 @@ namespace Unity.MP_FPS
             /// </summary>
             public InputAction @Block => m_Wrapper.m_Player_Block;
             /// <summary>
+            /// Provides access to the underlying input action "Player/RotateItem".
+            /// </summary>
+            public InputAction @RotateItem => m_Wrapper.m_Player_RotateItem;
+            /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
             public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1483,6 +1509,9 @@ namespace Unity.MP_FPS
                 @Block.started += instance.OnBlock;
                 @Block.performed += instance.OnBlock;
                 @Block.canceled += instance.OnBlock;
+                @RotateItem.started += instance.OnRotateItem;
+                @RotateItem.performed += instance.OnRotateItem;
+                @RotateItem.canceled += instance.OnRotateItem;
             }
 
             /// <summary>
@@ -1542,6 +1571,9 @@ namespace Unity.MP_FPS
                 @Block.started -= instance.OnBlock;
                 @Block.performed -= instance.OnBlock;
                 @Block.canceled -= instance.OnBlock;
+                @RotateItem.started -= instance.OnRotateItem;
+                @RotateItem.performed -= instance.OnRotateItem;
+                @RotateItem.canceled -= instance.OnRotateItem;
             }
 
             /// <summary>
@@ -1954,6 +1986,13 @@ namespace Unity.MP_FPS
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnBlock(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "RotateItem" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnRotateItem(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

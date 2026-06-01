@@ -109,8 +109,16 @@ public class ThrowerNPC : BaseNPC
 
         // Spawn the item
         GameObject thrownItem = Instantiate(itemPrefab, throwPoint.position, throwPoint.rotation);
-        Rigidbody rb = thrownItem.GetComponent<Rigidbody>();
 
+        // --- THE FIX: Set up the item's thrown properties for the NPC ---
+        Item itemScript = thrownItem.GetComponent<Item>();
+        if (itemScript != null)
+        {
+            itemScript.isThrown = true;
+            itemScript.currentThrower = this.gameObject;
+        }
+
+        Rigidbody rb = thrownItem.GetComponent<Rigidbody>();
         if (rb != null)
         {
             // Tilt the NPC's forward direction upward by the throwAngle
