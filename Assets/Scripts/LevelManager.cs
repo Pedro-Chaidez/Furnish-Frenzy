@@ -1,17 +1,20 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
- 
+
+public class LevelManager : MonoBehaviour
+{
+public static LevelManager Instance;
+
 [System.Serializable]
 public class LevelConfig
 {
-    public string levelName;
- 
+    public string levelName; 
+    public string sceneToLoad; 
     public GameObject aggressiveNPCPrefab;
     public GameObject cowardNPCPrefab;
- 
     public int aggressiveNPCCount;
     public int cowardNPCCount;
- 
     public Transform[] spawnPoints;
  
     [Header("Difficulty Settings")]
@@ -19,11 +22,29 @@ public class LevelConfig
     public float aggressiveAttackDamage = 10f;
     public float cowardMoveSpeed        = 3f;
 }
- 
-public class LevelManager : MonoBehaviour
+
+public List<LevelConfig> levels = new List<LevelConfig>();
+
+private int currentLevelIndex = 0;
+private List<GameObject> spawnedNPCs = new List<GameObject>();
+
+private void Awake()
 {
-    [SerializeField]
-    private List<LevelConfig> levels = new List<LevelConfig>()
+    if (Instance == null)
+    {
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    else
+    {
+        Destroy(gameObject);
+    }
+}
+
+private void OnDestroy()
+{
+    if (Instance == this)
     {
         new LevelConfig {
             levelName = "Level 1",
@@ -56,11 +77,31 @@ public class LevelManager : MonoBehaviour
     private List<GameObject> spawnedNPCs = new List<GameObject>();
  
     private void Start()
-    {
-        LoadLevel(currentLevelIndex);
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
- 
-    public void LoadLevel(int levelIndex)
+}
+
+public void LoadNextStore()
+{
+    if (levels.Count == 0 || currentLevelIndex >= levels.Count)
+    {
+        Debug.Log("All levels completed!");
+        return;
+    }
+
+    string nextScene = levels[currentLevelIndex].sceneToLoad;
+
+    string saveKey = "SceneData_" + nextScene;
+    PlayerPrefs.DeleteKey(saveKey);
+
+    SceneManager.LoadScene(nextScene);
+
+    currentLevelIndex++;
+}
+
+private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+{
+    if (scene.name != "House")
     {
         if (levelIndex >= levels.Count)
         {
@@ -121,24 +162,51 @@ public class LevelManager : MonoBehaviour
         GameObject npc = Instantiate(prefab, spawnPos, spawnRot);
         spawnedNPCs.Add(npc);
         return npc;
+        SpawnNPCsForCurrentScene(scene.name);
     }
- 
-    private void ClearNPCs()
+}
+
+private void SpawnNPCsForCurrentScene(string currentSceneName)
+{
+    ClearNPCs();
+
+    LevelConfig config = levels.Find(x => x.sceneToLoad == currentSceneName);
+    if (config == null) return;
+
+    for (int i = 0; i < config.aggressiveNPCCount; i++)
     {
-        foreach (GameObject npc in spawnedNPCs)
-        {
-            if (npc != null) Destroy(npc);
-        }
-        spawnedNPCs.Clear();
+        SpawnNPC(config.aggressiveNPCPrefab, config, i);
     }
- 
-    public void NextLevel()
+    for (int i = 0; i < config.cowardNPCCount; i++)
     {
-        LoadLevel(currentLevelIndex + 1);
+        SpawnNPC(config.cowardNPCPrefab, config, config.aggressiveNPCCount + i);
     }
- 
-    public int GetCurrentLevel()
+}
+
+private void SpawnNPC(GameObject prefab, LevelConfig config, int spawnIndex)
+{
+    if (prefab == null) return;
+
+    Vector3 spawnPos = transform.position;
+    Quaternion spawnRot = Quaternion.identity;
+
+    if (config.spawnPoints != null && config.spawnPoints.Length > 0)
     {
-        return currentLevelIndex + 1;
+        Transform point = config.spawnPoints[spawnIndex % config.spawnPoints.Length];
+        spawnPos = point.position;
+        spawnRot = point.rotation;
     }
+
+    GameObject npc = Instantiate(prefab, spawnPos, spawnRot);
+    spawnedNPCs.Add(npc);
+}
+
+private void ClearNPCs()
+{
+    foreach (GameObject npc in spawnedNPCs)
+    {
+        if (npc != null) Destroy(npc);
+    }
+    spawnedNPCs.Clear();
+}
 }

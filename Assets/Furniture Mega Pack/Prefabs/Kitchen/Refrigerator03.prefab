@@ -465,8 +465,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 314581221712257327}
-  - component: {fileID: 8238948819752597586}
   - component: {fileID: 9040679789808964669}
+  - component: {fileID: 2830124803730100791}
   m_Layer: 0
   m_Name: Refrigerator03
   m_TagString: Untagged
@@ -490,27 +490,6 @@ Transform:
   - {fileID: 7724615251099678570}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8238948819752597586
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7358961240084064715}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.0431101, y: 4.078756, z: 2.0431101}
-  m_Center: {x: 0.00000011920929, y: 2.039378, z: -0.09894645}
 --- !u!54 &9040679789808964669
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -538,6 +517,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &2830124803730100791
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7358961240084064715}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.0431101, y: 4.078756, z: 2.0431101}
+  m_Center: {x: 0.00000011920929, y: 2.039378, z: -0.09894645}
 --- !u!1 &7867291118567717801
 GameObject:
   m_ObjectHideFlags: 0

@@ -280,7 +280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6268097450644272309}
   - component: {fileID: 8710152030887343994}
-  - component: {fileID: 7865036736812296172}
+  - component: {fileID: 1261517516148331529}
   m_Layer: 0
   m_Name: Toilet02
   m_TagString: Untagged
@@ -331,7 +331,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!65 &7865036736812296172
+--- !u!65 &1261517516148331529
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

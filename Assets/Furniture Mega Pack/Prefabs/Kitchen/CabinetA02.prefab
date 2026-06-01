@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6384639769436090931}
   - component: {fileID: 4573778263659452108}
-  - component: {fileID: 5723314856905697248}
+  - component: {fileID: 6403606647293658968}
   m_Layer: 0
   m_Name: CabinetA02
   m_TagString: Untagged
@@ -151,7 +151,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!65 &5723314856905697248
+--- !u!65 &6403606647293658968
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

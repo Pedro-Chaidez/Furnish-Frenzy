@@ -1,7 +1,9 @@
 using UnityEngine;
-
+using System;
+ 
 public abstract class Entity : MonoBehaviour
 {
+    public float maxHealth = 100f;
     public float health = 100f;
     public float maxHealth = 100f; // NEW: Cap the health
     public ushort teamID = 2; // 0 for Player, 1 for Enemy, 2 for Neutral
@@ -9,6 +11,10 @@ public abstract class Entity : MonoBehaviour
     public virtual void TakeDamage(float amount, GameObject source = null)
     {
         health -= amount;
+        health = Mathf.Clamp(health, 0, maxHealth);
+ 
+        OnHealthChanged?.Invoke(health, maxHealth);
+ 
         if (health <= 0)
         {
             Die();
@@ -32,3 +38,4 @@ public abstract class Entity : MonoBehaviour
         Destroy(gameObject);
     }
 }
+ 

@@ -11,6 +11,13 @@ public class CowardNPC : BaseNPC
         teamID = 1;
     }
  
+
+    protected override void UpdateAnimator()
+    {
+        base.UpdateAnimator();
+
+    }
+
     protected override void PerformBehavior()
     {
         float distance = Vector3.Distance(transform.position, currentTarget.transform.position);

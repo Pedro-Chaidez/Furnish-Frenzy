@@ -101,8 +101,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5296019892361087318}
-  - component: {fileID: 4619090932641705238}
   - component: {fileID: 4958473753638378881}
+  - component: {fileID: 4208896612410211221}
   m_Layer: 0
   m_Name: GasStove03
   m_TagString: Untagged
@@ -126,27 +126,6 @@ Transform:
   - {fileID: 3594402117771078779}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4619090932641705238
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1081508871248067603}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.861475, y: 0.31789646, z: 0.9256866}
-  m_Center: {x: 0, y: 0.1589482, z: -0.029699177}
 --- !u!54 &4958473753638378881
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -174,6 +153,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!65 &4208896612410211221
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081508871248067603}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.861475, y: 0.31789646, z: 0.9256866}
+  m_Center: {x: 0, y: 0.1589482, z: -0.029699177}
 --- !u!1 &4858081365156591396
 GameObject:
   m_ObjectHideFlags: 0
