@@ -9,32 +9,29 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: a00576dc0deaf284d9cfdbdb0cfe166f
   - enabled: 1
-    path: Assets/Scenes/Testing Scene.unity
-    guid: 6e4f56113cf7e894cad5923c0742b182
-  - enabled: 0
-    path: Assets/Scenes/MainMenu.unity
-    guid: dcd7e7cf74fa2da41862cdee86263265
-  - enabled: 0
-    path: Assets/Scenes/GameScene.unity
-    guid: 6f586e48034994544a0532cc6f28cfdf
-  - enabled: 0
-    path: Assets/Scenes/GameResourcesSubScene.unity
-    guid: 61e4dafa831829f41ac2fd6c36bacab8
-  - enabled: 0
-    path: Assets/Scenes/Persistents.unity
-    guid: 2bc025f7477fc5a4aa34ccad363d2f85
-  - enabled: 0
-    path: Assets/Scenes/SpawnPointsSubScene.unity
-    guid: 4b2b8f84db1610c4a8bbf1528d4eb489
-  - enabled: 0
-    path: Assets/mainMenu.unity
-    guid: ff50989ddfa837642bcf985bf18966df
-  - enabled: 1
-    path: Assets/Scenes/Store.unity
-    guid: 4cb2f5f5a2241ad4aafb72b555e451aa
-  - enabled: 1
     path: Assets/Scenes/House.unity
     guid: c6df195818d462541bffae4f458945ec
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: bcf0bb628537fb04db6cb2e7fbbd4fed
+  - enabled: 1
+    path: Assets/Scenes/Levell2.unity
+    guid: 09119eec202cb234282961e58d7d3f40
+  - enabled: 1
+    path: Assets/Scenes/Monday.unity
+    guid: 04e037a67cd62ce40a63de08a3b39413
+  - enabled: 1
+    path: Assets/Scenes/Tuesday.unity
+    guid: e5f9af3b4a9c836478e542faead617cd
+  - enabled: 1
+    path: Assets/Scenes/Wednesday.unity
+    guid: d9a34f9c8905f284186601d1a343c85f
+  - enabled: 1
+    path: Assets/Scenes/Thursday.unity
+    guid: 5afaf34e99b5905488f993b6f5133bb5
+  - enabled: 1
+    path: Assets/Scenes/Friday.unity
+    guid: f3b8281efabf2f5438af613879319982
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 8a359052d73013046af0cccc79347d43, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

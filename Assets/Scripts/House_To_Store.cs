@@ -1,53 +1,28 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DoorTeleport : MonoBehaviour
+public class DoorTeleport : Interactable
 {
-    [Header("Teleport Settings")]
-    public string sceneToLoad = "Store";
+private void Awake()
+{
+int interactableLayer = LayerMask.NameToLayer("Interactable");
 
-    [Header("UI Prompt")]
-    public GameObject interactPrompt;
-
-    [Header("Detection")]
-    public float detectionRadius = 2f; // tweak this in Inspector
-
-    private bool playerInRange = false;
-
-    void Start()
+    if (gameObject.layer != interactableLayer)
     {
-        if (interactPrompt != null)
-            interactPrompt.SetActive(false);
+        Debug.LogWarning(gameObject.name + " was not on the Interactable layer. Setting it automatically.");
+        gameObject.layer = interactableLayer;
     }
+}
 
-    void Update()
+protected override void Interact()
+{
+    if (LevelManager.Instance != null)
     {
-        Collider[] hits = Physics.OverlapSphere(
-            transform.position,
-            detectionRadius
-        );
-
-        playerInRange = false;
-        foreach (Collider hit in hits)
-        {
-            if (hit.CompareTag("Player"))
-            {
-                playerInRange = true;
-                break;
-            }
-        }
-
-        if (interactPrompt != null)
-            interactPrompt.SetActive(playerInRange);
-
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
-            SceneManager.LoadScene(sceneToLoad);
+        LevelManager.Instance.LoadNextStore();
     }
-
-    // Visualize detection radius in Scene view
-    void OnDrawGizmosSelected()
+    else
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        Debug.LogError("LevelManager is missing from the scene.");
     }
+}
 }
