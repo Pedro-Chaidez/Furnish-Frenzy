@@ -1,143 +1,244 @@
 using System.Collections.Generic;
 using UnityEngine;
- 
+
 public class ShoppingCart3D : MonoBehaviour
 {
     public static ShoppingCart3D Instance { get; private set; }
- 
+
     [Header("Cart Follow")]
     public Transform playerTransform;
+
+    [Tooltip("X = side offset, Y = height, Z = distance in front/behind player")]
     public Vector3 offset = new Vector3(0f, 0.6f, 2.2f);
-    public float followSpeed = 8f;
-    public float rotationSpeed = 12f;
+
+    [Tooltip("Lower = less buffer, higher = floatier")]
+    public float positionSmoothTime = 0.08f;
+
+    [Tooltip("Lower = turns faster, higher = smoother turning")]
+    public float forwardSmoothTime = 0.06f;
+
+    [Tooltip("How fast the cart rotates to face the player direction")]
+    public float rotationSpeed = 18f;
+
+    [Tooltip("Set this to Y = 180 if your cart faces backward")]
     public Vector3 modelRotationOffset = Vector3.zero;
+
     public bool addColliderIfMissing = true;
- 
-    [Header("Item Slots (6 child Transforms inside cart basket)")]
+
+    [Header("Item Slots")]
     public Transform[] slotPositions = new Transform[6];
- 
-    [Header("Preview Scale (world-space units)")]
-    public Vector3 bigItemScale   = Vector3.one * 0.4f;
+
+    [Header("Preview Scale")]
+    public Vector3 bigItemScale = Vector3.one * 0.4f;
     public Vector3 smallItemScale = Vector3.one * 0.25f;
- 
-    [Header("Slot Offset (tune to push items into basket)")]
-    [Tooltip("World-space offset applied to every item. Negative Y sinks items into the basket.")]
-    public Vector3 slotPositionOffset = new Vector3(0f, -0.5f, 0f);
- 
-    private Dictionary<GameObject, Transform> dockedItems = new Dictionary<GameObject, Transform>();
-    private List<GameObject> managedPreviews = new List<GameObject>();
- 
+
+    [Header("Slot Local Offset")]
+    [Tooltip("Local offset applied inside each slot. Negative Y sinks items into basket.")]
+    public Vector3 slotLocalPositionOffset = new Vector3(0f, -0.5f, 0f);
+
+    private Vector3 _posVelocity = Vector3.zero;
+    private Vector3 _smoothForward = Vector3.forward;
+    private Vector3 _fwdVelocity = Vector3.zero;
+
+    private readonly List<GameObject> managedPreviews = new List<GameObject>();
+
     void Awake()
     {
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
- 
+
         if (addColliderIfMissing && GetComponent<Collider>() == null)
-            gameObject.AddComponent<BoxCollider>().isTrigger = false;
+        {
+            BoxCollider box = gameObject.AddComponent<BoxCollider>();
+            box.isTrigger = false;
+        }
     }
- 
-    void OnEnable()  => CartInventory.InventoryChanged += RefreshCartVisuals;
-    void OnDisable() => CartInventory.InventoryChanged -= RefreshCartVisuals;
- 
+
+    void OnEnable()
+    {
+        CartInventory.InventoryChanged += RefreshCartVisuals;
+    }
+
+    void OnDisable()
+    {
+        CartInventory.InventoryChanged -= RefreshCartVisuals;
+    }
+
     void Start()
     {
         if (playerTransform == null)
-            playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null)
+                playerTransform = player.transform;
+        }
+
+        if (playerTransform != null)
+        {
+            Vector3 flatForward = GetFlatForward(playerTransform);
+            _smoothForward = flatForward;
+
+            Vector3 startRight = Vector3.Cross(Vector3.up, _smoothForward).normalized;
+
+            transform.position = playerTransform.position
+                               + _smoothForward * offset.z
+                               + startRight * offset.x
+                               + Vector3.up * offset.y;
+
+            transform.rotation = Quaternion.LookRotation(_smoothForward, Vector3.up)
+                               * Quaternion.Euler(modelRotationOffset);
+        }
+
         RefreshCartVisuals();
     }
- 
-    void Update()
-    {
-        if (playerTransform == null) return;
- 
-        Vector3 target = playerTransform.position
-                       + playerTransform.forward * offset.z
-                       + playerTransform.right   * offset.x
-                       + playerTransform.up      * offset.y;
- 
-        transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * followSpeed);
- 
-        Quaternion targetRot = Quaternion.LookRotation(playerTransform.forward, Vector3.up)
-                             * Quaternion.Euler(modelRotationOffset);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotationSpeed);
-    }
- 
+
     void LateUpdate()
+{
+    if (playerTransform == null)
+        return;
+
+    Vector3 desiredForward = GetFlatForward(playerTransform);
+
+    // Smooth only the direction, not the position
+    _smoothForward = Vector3.SmoothDamp(
+        _smoothForward,
+        desiredForward,
+        ref _fwdVelocity,
+        forwardSmoothTime,
+        Mathf.Infinity,
+        Time.deltaTime
+    );
+
+    if (_smoothForward.sqrMagnitude < 0.001f)
+        _smoothForward = desiredForward;
+
+    _smoothForward.Normalize();
+
+    Vector3 right = Vector3.Cross(Vector3.up, _smoothForward).normalized;
+
+    Vector3 targetPosition = playerTransform.position
+                           + _smoothForward * offset.z
+                           + right * offset.x
+                           + Vector3.up * offset.y;
+
+    // IMPORTANT:
+    // Direct position follow removes forward-movement delay/buffer.
+    transform.position = targetPosition;
+
+    Quaternion targetRotation = Quaternion.LookRotation(_smoothForward, Vector3.up)
+                              * Quaternion.Euler(modelRotationOffset);
+
+    transform.rotation = Quaternion.Slerp(
+        transform.rotation,
+        targetRotation,
+        1f - Mathf.Exp(-rotationSpeed * Time.deltaTime)
+    );
+}
+
+    private Vector3 GetFlatForward(Transform target)
     {
-        foreach (var kvp in dockedItems)
-        {
-            if (kvp.Key == null || kvp.Value == null) continue;
-            kvp.Key.transform.position = kvp.Value.position + slotPositionOffset;
-            kvp.Key.transform.rotation = kvp.Value.rotation;
-        }
+        Vector3 forward = target.forward;
+        forward.y = 0f;
+
+        if (forward.sqrMagnitude < 0.001f)
+            forward = transform.forward;
+
+        forward.Normalize();
+        return forward;
     }
- 
+
     public void RefreshCartVisuals()
     {
-        foreach (var obj in managedPreviews)
-            if (obj != null) Destroy(obj);
+        foreach (GameObject obj in managedPreviews)
+        {
+            if (obj != null)
+                Destroy(obj);
+        }
+
         managedPreviews.Clear();
-        dockedItems.Clear();
- 
-        if (CartInventory.Instance == null) return;
- 
-        GameObject bigPrefab           = CartInventory.Instance.GetBigItemPrefab();
+
+        if (CartInventory.Instance == null)
+            return;
+
+        GameObject bigPrefab = CartInventory.Instance.GetBigItemPrefab();
         List<FurnitureItem> smallItems = CartInventory.Instance.GetCartItems();
- 
-        // Slot assignment:
-        // Big item present  → big item at slot 0, small items at slots 1+
-        // No big item       → small items fill slots 0+
+
         int nextSlot = 0;
- 
-        if (bigPrefab != null && slotPositions.Length > 0)
+
+        if (bigPrefab != null && slotPositions.Length > 0 && slotPositions[0] != null)
         {
             SpawnPreviewClone(bigPrefab, slotPositions[0], bigItemScale);
             nextSlot = 1;
         }
- 
+
         for (int i = 0; i < smallItems.Count; i++)
         {
-            if (nextSlot >= slotPositions.Length) break;
+            if (nextSlot >= slotPositions.Length)
+                break;
+
             Transform slot = slotPositions[nextSlot];
-            if (slot == null) { nextSlot++; continue; }
- 
-            GameObject prefab = CartInventory.Instance.GetCartPrefab(i);
-            if (prefab != null)
-                SpawnPreviewClone(prefab, slot, smallItemScale);
- 
+
+            if (slot != null)
+            {
+                GameObject prefab = CartInventory.Instance.GetCartPrefab(i);
+
+                if (prefab != null)
+                    SpawnPreviewClone(prefab, slot, smallItemScale);
+            }
+
             nextSlot++;
         }
     }
- 
-    void SpawnPreviewClone(GameObject prefab, Transform slot, Vector3 scale)
+
+    private void SpawnPreviewClone(GameObject prefab, Transform slot, Vector3 scale)
     {
-        if (prefab == null || slot == null) return;
- 
-        GameObject preview = Instantiate(prefab);
-        preview.transform.position   = slot.position + slotPositionOffset;
-        preview.transform.rotation   = slot.rotation;
+        if (prefab == null || slot == null)
+            return;
+
+        GameObject preview = Instantiate(prefab, slot);
+
+        preview.transform.localPosition = slotLocalPositionOffset;
+        preview.transform.localRotation = Quaternion.identity;
         preview.transform.localScale = scale;
- 
-        foreach (var rb in preview.GetComponentsInChildren<Rigidbody>(true))
+
+        foreach (Rigidbody rb in preview.GetComponentsInChildren<Rigidbody>(true))
         {
-            rb.isKinematic      = true;
-            rb.linearVelocity   = Vector3.zero;
-            rb.angularVelocity  = Vector3.zero;
-            rb.useGravity       = false;
+            rb.isKinematic = true;
+
+#if UNITY_6000_0_OR_NEWER
+            rb.linearVelocity = Vector3.zero;
+#else
+            rb.velocity = Vector3.zero;
+#endif
+
+            rb.angularVelocity = Vector3.zero;
+            rb.useGravity = false;
             rb.detectCollisions = false;
-            rb.constraints      = RigidbodyConstraints.FreezeAll;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
         }
- 
-        foreach (var col in preview.GetComponentsInChildren<Collider>(true))
-            col.enabled = false;
- 
-        foreach (var mb in preview.GetComponentsInChildren<MonoBehaviour>(true))
+
+        foreach (Collider col in preview.GetComponentsInChildren<Collider>(true))
         {
-            if (mb == null || mb is ShoppingCart3D) continue;
+            col.enabled = false;
+        }
+
+        foreach (MonoBehaviour mb in preview.GetComponentsInChildren<MonoBehaviour>(true))
+        {
+            if (mb == null)
+                continue;
+
+            if (mb is ShoppingCart3D)
+                continue;
+
             mb.enabled = false;
         }
- 
-        dockedItems[preview] = slot;
+
         managedPreviews.Add(preview);
     }
 }
