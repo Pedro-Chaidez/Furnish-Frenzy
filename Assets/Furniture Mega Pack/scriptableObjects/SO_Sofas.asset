@@ -17,11 +17,6 @@ MonoBehaviour:
   price: 0
   defaultPlacementOffset: {x: 0, y: 0, z: 0}
   prefabVariants:
-  - {fileID: 6978817964231946882, guid: f933a928f9d932f4e845eb0fc9508d64, type: 3}
-  - {fileID: 7754370700975675341, guid: 38a6a1df4a5ef5f4b8107ff806b527c0, type: 3}
-  - {fileID: 7999656253645748683, guid: f203a2dbd06e82e408f3dd9ba7833d29, type: 3}
-  - {fileID: 6738996137917839785, guid: aea230b5d7767ec4585e27e4158d5d34, type: 3}
-  - {fileID: 6568580088740262106, guid: fa656671c5f84c14e962d284446cdb9a, type: 3}
   - {fileID: 5835969478974874805, guid: c35b87783bbaa274f84e62c35e2a4a74, type: 3}
   - {fileID: 320583182687262083, guid: 37b824d7267a6d641b0d5da4c2e5c9de, type: 3}
   - {fileID: 2366304432929067163, guid: 7e8fe2dc995805846973e5c953634d39, type: 3}
