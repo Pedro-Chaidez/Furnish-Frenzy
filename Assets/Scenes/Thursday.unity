@@ -30141,7 +30141,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShoppingCart3D
   playerTransform: {fileID: 0}
   offset: {x: 0, y: 0, z: 3}
-  followSpeed: 8
+  positionSmoothTime: 0.08
+  forwardSmoothTime: 0.06
   rotationSpeed: 12
   modelRotationOffset: {x: 0, y: 0, z: 0}
   addColliderIfMissing: 1
@@ -30154,7 +30155,7 @@ MonoBehaviour:
   - {fileID: 328103458}
   bigItemScale: {x: 0.1, y: 0.1, z: 0.1}
   smallItemScale: {x: 0.25, y: 0.25, z: 0.25}
-  slotPositionOffset: {x: 0, y: -0.5, z: 0}
+  slotLocalPositionOffset: {x: 0, y: -0.5, z: 0}
 --- !u!4 &377949473
 Transform:
   m_ObjectHideFlags: 0
@@ -119245,7 +119246,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: d5001eac6aedd4347be79577378f95eb, type: 3}
+  m_Resource: {fileID: 8300000, guid: 39bf3bd1bba518e4bb4add0d72bd1129, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
